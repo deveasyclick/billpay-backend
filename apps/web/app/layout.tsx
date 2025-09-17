@@ -25,9 +25,9 @@ export default function RootLayout({
             "--sidebar-width-mobile": "8rem",
           }}
         >
-          <div className="grid grid-cols-[8rem_1fr] gap-4 p-4">
+          <div className="w-full ml-[8rem]">
             <AppSidebar />
-            <main className="w-100 grid grid-cols-2 gap-4 p-4">{children}</main>
+            <main className="w-full">{children}</main>
           </div>
         </SidebarProvider>
       </body>
