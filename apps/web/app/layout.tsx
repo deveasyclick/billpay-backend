@@ -25,7 +25,7 @@ export default function RootLayout({
             "--sidebar-width-mobile": "8rem",
           }}
         >
-          <div className="w-full ml-[8rem]">
+          <div className="w-full md:ml-[8rem]">
             <AppSidebar />
             <main className="w-full">{children}</main>
           </div>
