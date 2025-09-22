@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
+import Header from "./components/layout/header";
 import "./globals.css";
-import { SidebarProvider } from "./components/ui/sidebar";
-import AppSidebar from "./components/layout/sidebar";
 
 export const metadata: Metadata = {
   title: "POC",
@@ -16,20 +15,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <header className="w-full p-6 bg-gray-800 text-white fixed top-0 left-0 z-50">
-          My Header
-        </header>
-        <SidebarProvider
-          style={{
-            "--sidebar-width": "8rem",
-            "--sidebar-width-mobile": "8rem",
-          }}
-        >
-          <div className="w-full md:ml-[8rem]">
-            <AppSidebar />
-            <main className="w-full">{children}</main>
-          </div>
-        </SidebarProvider>
+        <Header />
+        <main className="w-full">{children}</main>
       </body>
     </html>
   );
