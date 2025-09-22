@@ -19,6 +19,12 @@ export interface BillerCategoriesResponse {
   ResponseCodeGrouping: string;
 }
 
+export interface BillersWithCategoriesResponse {
+  BillerList: BillerList;
+  ResponseCode: string;
+  ResponseCodeGrouping: string;
+}
+
 export interface PaymentItemsResponse {
   PaymentItems: PaymentItem[];
   ResponseCode: string;
@@ -39,3 +45,16 @@ export interface PayResponse {
   ResponseDescription: string;
   ResponseCodeGrouping: string;
 }
+
+export type TransactionResponse = {
+  Amount: number;
+  CardNumber: string;
+  MerchantReference: string;
+  PaymentReference: string;
+  RetrievalReferenceNumber: string;
+  SplitAccounts: any[];
+  TransactionDate: string; // ISO datetime string
+  ResponseCode: string;
+  ResponseDescription: string;
+  AccountNumber: string;
+};

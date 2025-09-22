@@ -10,7 +10,9 @@ export interface Config {
   interswitchApiBaseUrl: string;
   interswitchBasicToken: string;
   interswitchAuthUrl: string;
-  interswitchPaymentReferencePrefix;
+  interswitchPaymentReferencePrefix: string;
+  interswitchPaymentBaseUrl: string;
+  interswitchMerchantCode: string;
 }
 
 const parseNumber = (value: string | undefined, fallback: number): number => {
@@ -28,9 +30,11 @@ export default function loadConfig(): Config {
     interswitchSecretKey: process.env.INTERSWITCH_SECRET_KEY || '',
     interswitchTerminalId: process.env.INTERSWITCH_TERMINAL_ID || '',
     interswitchApiBaseUrl: process.env.INTERSWITCH_API_BASE_URL || '',
+    interswitchPaymentBaseUrl: process.env.INTERSWITCH_PAYMENT_BASE_URL || '',
     interswitchAuthUrl: process.env.INTERSWITCH_AUTH_URL || '',
     interswitchPaymentReferencePrefix:
       process.env.INTERSWITCH_PAYMENT_REFERENCE_PREFIX || '',
+    interswitchMerchantCode: process.env.INTERSWITCH_MERCHANT_CODE || '',
   };
 
   if (config.interswitchClientId && config.interswitchSecretKey) {

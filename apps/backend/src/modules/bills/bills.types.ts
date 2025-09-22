@@ -4,3 +4,9 @@ export enum NetworkProvider {
   AIRTEL = 'airtel',
   NINEMOBILE = '9mobile',
 }
+
+export enum ProviderResult {
+  SUCCESS = 'SUCCESS',
+  PENDING = 'PENDING',
+  FAILED = 'FAILED',
+}

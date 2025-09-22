@@ -42,6 +42,13 @@ class EnvironmentVariables {
   @IsNotEmpty()
   @IsUrl()
   INTERSWITCH_AUTH_URL: string;
+
+  @IsNotEmpty()
+  @IsUrl()
+  INTERSWITCH_PAYMENT_BASE_URL: string;
+
+  @IsNotEmpty()
+  INTERSWITCH_MERCHANT_CODE: string;
 }
 
 export function validateConfig(config: Config) {

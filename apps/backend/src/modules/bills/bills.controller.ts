@@ -1,77 +1,41 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
+import { ApiBody, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { BillsService } from './bills.service';
-import {
-  BuyAirtimeDto,
-  BuyAirtimeResponseDto,
-  BuyDataDto,
-  BuyDataResponseDto,
-  GetDataPlansResponseDto,
-} from './bills.validation';
-import {
-  ApiBadRequestResponse,
-  ApiBody,
-  ApiOkResponse,
-  ApiOperation,
-} from '@nestjs/swagger';
-import { ApiErrorResponseDto } from 'src/common/dto/response.dto';
+import { PayBillDTO, PayBillResponseDTO } from './dtos/payment';
+import { GetBillerItemsResponseDto } from './dtos/item';
 
 @Controller('bills')
+@ApiTags('Bills')
 export class BillsController {
   constructor(private readonly billsService: BillsService) {}
 
-  @Post('airtime/buy')
-  @ApiOperation({ summary: 'Buy airtime' })
-  @ApiBody({ type: BuyAirtimeDto })
-  @ApiBadRequestResponse({ type: ApiErrorResponseDto })
-  @ApiOkResponse({ type: BuyAirtimeResponseDto })
-  private async buyAirtime(
-    @Body()
-    { customerId, networkProvider, requestReference, amount }: BuyAirtimeDto,
-  ): Promise<BuyAirtimeResponseDto> {
-    const data = await this.billsService.buyAirtime(
-      customerId,
-      amount,
-      requestReference,
-      networkProvider,
-    );
+  @Post('pay')
+  @ApiOperation({ summary: 'Pay any bill (airtime, data, TV, electricity)' })
+  @ApiBody({ type: PayBillDTO })
+  @ApiOkResponse({ type: PayBillResponseDTO })
+  async payBill(@Body() dto: PayBillDTO): Promise<PayBillResponseDTO> {
+    const data = await this.billsService.processBillPayment(dto);
     return {
       statusCode: 200,
       message: 'Success',
-      data,
+      data: {
+        customerId: dto.customerId,
+        amount: dto.amount,
+        requestReference: dto.requestReference,
+        paymentCode: dto.paymentCode,
+        transactionRef: data.pay.TransactionRef,
+      },
     };
   }
 
-  @Get('data/plans')
-  @ApiOperation({ summary: 'Get data plans for all networks' })
-  @ApiBadRequestResponse({ type: ApiErrorResponseDto })
-  @ApiOkResponse({ type: GetDataPlansResponseDto })
-  private async getDataPlans(): Promise<GetDataPlansResponseDto> {
-    const data = await this.billsService.getDataPlans();
+  @Get('items')
+  @ApiOperation({ summary: 'Get all bill items' })
+  @ApiOkResponse({ type: GetBillerItemsResponseDto })
+  async getItems(): Promise<GetBillerItemsResponseDto> {
     return {
       statusCode: 200,
-      data,
       message: 'Success',
-    };
-  }
-
-  @Post('data/buy')
-  @ApiOperation({ summary: 'Buy data plan' })
-  @ApiBody({ type: BuyDataDto })
-  @ApiBadRequestResponse({ type: ApiErrorResponseDto })
-  @ApiOkResponse({ type: BuyDataResponseDto })
-  private async buyData(
-    @Body() { customerId, paymentCode, requestReference, amount }: BuyDataDto,
-  ): Promise<BuyDataResponseDto> {
-    const data = await this.billsService.buyData(
-      customerId,
-      paymentCode,
-      requestReference,
-      amount,
-    );
-    return {
-      statusCode: 200,
-      data,
-      message: 'Success',
+      data: await this.billsService.fetchAllPlans(),
     };
   }
 }
