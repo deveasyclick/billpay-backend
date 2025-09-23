@@ -1,6 +1,7 @@
 import "server-only";
+import { env } from "../env";
 
 export async function getBillingItems() {
-  const res = await fetch("http://localhost:4000/api/v1/bills/items");
+  const res = await fetch(`${env.apiBaseUrl}/bills/items`);
   return res.json();
 }
