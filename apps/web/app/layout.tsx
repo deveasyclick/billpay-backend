@@ -1,35 +1,39 @@
 import type { Metadata } from "next";
+import Header from "./components/layout/header";
 import "./globals.css";
-import { SidebarProvider } from "./components/ui/sidebar";
-import AppSidebar from "./components/layout/sidebar";
+import { env } from "./lib/env";
+import Script from "next/script";
+import { Toaster } from "./components/ui/sonner";
+import { getBillingItems } from "./lib/api/billing-items";
+import { BillingItemProvider } from "./lib/context/itemContext";
+import Providers from "./providers";
 
 export const metadata: Metadata = {
-  title: "POC",
+  title: "Elite Africa",
   description: "Billing App",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const items = await getBillingItems();
   return (
     <html lang="en">
       <body>
-        <header className="w-full p-6 bg-gray-800 text-white fixed top-0 left-0 z-50">
-          My Header
-        </header>
-        <SidebarProvider
-          style={{
-            "--sidebar-width": "8rem",
-            "--sidebar-width-mobile": "8rem",
-          }}
-        >
-          <div className="w-full md:ml-[8rem]">
-            <AppSidebar />
+        <Header />
+        <BillingItemProvider value={items.data ?? []}>
+          <Providers>
             <main className="w-full">{children}</main>
-          </div>
-        </SidebarProvider>
+          </Providers>
+        </BillingItemProvider>
+
+        <Script
+          src={env.interswitchInlineUrl}
+          strategy="afterInteractive" // ensures it loads after hydration
+        />
+        <Toaster duration={5000} richColors position="top-center" />
       </body>
     </html>
   );
