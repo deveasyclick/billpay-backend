@@ -2,7 +2,7 @@ export const SUPPORTED_NETWORKS = [
   { id: "mtn", name: "MTN", logo: "/icons/mtn.svg" },
   { id: "glo", name: "GLO", logo: "/icons/glo.svg" },
   { id: "airtel", name: "AIRTEL", logo: "/icons/airtel.svg" },
-  { id: "9mobile", name: "ETISALAT", logo: "/icons/9mobile.svg" },
+  { id: "9mobile", name: "9mobile", logo: "/icons/9mobile.png" },
 ];
 
 export const SUPPORTED_CRYPTO = [

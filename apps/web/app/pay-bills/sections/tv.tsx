@@ -1,4 +1,3 @@
-import { SUPPORTED_CRYPTO } from "@/buy-airtime/constants";
 import PaySection from "@/components/Pay";
 import {
   Form,
@@ -22,7 +21,6 @@ import { useBillingItems } from "@/lib/context/itemContext";
 import type { BillingItem } from "@/types/billingitem";
 import type { InterSwitchCheckoutResponse } from "@/types/checkout";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -41,6 +39,7 @@ export default function CableTVSection() {
       provider: "",
       amount: 0.0,
       package: "",
+      coin: "USDT",
     },
   });
 
@@ -55,6 +54,7 @@ export default function CableTVSection() {
     setProviders([...providers]);
   }, []);
 
+  // set packages
   const provider = form.watch("provider");
   useEffect(() => {
     if (provider) {
@@ -65,7 +65,14 @@ export default function CableTVSection() {
     }
   }, [provider]);
 
-  // set package
+  // set amount
+  const pkg = form.watch("package");
+  useEffect(() => {
+    if (pkg) {
+      const amount = packages.find((p) => p.displayName === pkg)?.amount || 0;
+      form.setValue("amount", amount / 100);
+    }
+  }, [pkg]);
 
   const onSubmit = (data: CableTVForm) => {
     const paymentCode = packages.find((p) => p.displayName === data.package)
@@ -106,7 +113,6 @@ export default function CableTVSection() {
     });
   };
 
-  console.log("items", items);
   return (
     <div className="flex flex-col gap-[16px]">
       <h1 className="text-3xl font-bold text-gray-900">Cable & TV</h1>
@@ -227,6 +233,7 @@ export default function CableTVSection() {
               !form.watch("amount") || form.watch("amount") < 50 || isPending
             }
             watch={form.watch}
+            disableInput={true}
           />
         </form>
       </Form>

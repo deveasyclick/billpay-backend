@@ -28,9 +28,10 @@ export const AirtimeFormSchema = z.object({
     .enum(["mtn", "glo", "airtel", "9mobile"])
     .refine((val) => !!val, { message: "Network is required" }),
 
-  amount: z.transform(Number).pipe(z.number().min(50)),
+  //amount: z.transform(Number).pipe(z.number().min(100)),
+  amount: z.number().min(100),
 
-  coin: z.enum(["USDT", "USDC", "BUSD", "DAI"]),
+  coin: z.enum(["USDT", "USDC", "BUSD"]),
 });
 
 export type AirtimeForm = z.infer<typeof AirtimeFormSchema>;

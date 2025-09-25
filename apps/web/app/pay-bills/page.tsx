@@ -6,28 +6,10 @@ import { BillList } from "./components";
 import { BettingSection, ElectricitySection } from "./sections";
 import CableTVSection from "./sections/tv";
 
-const BettingIcon = (
-  <svg
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path
-      d="M4.5 13.25L15 2L12.75 10.25H21L10.5 21.5L12.75 13.25H4.5Z"
-      stroke="#2563EB"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    />
-  </svg>
-);
-
 const sections = [
   { name: "electricity", content: <ElectricitySection /> },
   { name: "betting", content: <BettingSection /> },
-  { name: "cable tv", content: <CableTVSection /> },
+  { name: "cable & TV", content: <CableTVSection /> },
 ];
 export default function PayBillPage() {
   const [activeTab, setActiveTab] = useState("electricity");

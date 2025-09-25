@@ -4,7 +4,6 @@ export enum Coin {
   USDT = "USDT",
   USDC = "USDC",
   BUSD = "BUSD",
-  DAI = "DAI",
 }
 
 export const DataFormSchema = z.object({
@@ -28,9 +27,10 @@ export const DataFormSchema = z.object({
     .enum(["mtn", "glo", "airtel", "9mobile"])
     .refine((val) => !!val, { message: "Network is required" }),
 
-  coin: z.enum(["USDT", "USDC", "BUSD", "DAI"]),
+  coin: z.enum(["USDT", "USDC", "BUSD"]),
 
   planId: z.string(),
+  amount: z.number().min(100),
 });
 
 export type DataForm = z.infer<typeof DataFormSchema>;

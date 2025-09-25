@@ -1,4 +1,3 @@
-import { SUPPORTED_CRYPTO } from "@/buy-airtime/constants";
 import PaySection from "@/components/Pay";
 import {
   Form,
@@ -22,7 +21,6 @@ import { useBillingItems } from "@/lib/context/itemContext";
 import type { BillingItem } from "@/types/billingitem";
 import type { InterSwitchCheckoutResponse } from "@/types/checkout";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -41,6 +39,7 @@ export default function BettingSection() {
       userId: "",
       provider: "",
       amount: 0.0,
+      coin: "USDT",
     },
   });
 

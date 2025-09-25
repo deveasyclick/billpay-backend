@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import PaySection from "@/components/Pay";
 import {
   Form,
   FormControl,
@@ -27,11 +27,9 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { SUPPORTED_CRYPTO, SUPPORTED_NETWORKS } from "../constants";
-import { DataFormSchema, type DataForm } from "../data.schema";
-import { ArrowLeftRightIcon, ShieldCheck } from "lucide-react";
 import { NetworkProvider } from "../airtime.schema";
-import PaySection from "@/components/Pay";
+import { SUPPORTED_NETWORKS } from "../constants";
+import { DataFormSchema, type DataForm } from "../data.schema";
 
 interface DataTabProps {}
 
@@ -43,12 +41,12 @@ export const DataTab = () => {
       phone: "",
       network: NetworkProvider.MTN,
       coin: "USDT",
+      amount: 0,
     },
   });
   const items = useBillingItems();
   const { mutate: payBill, isPending } = usePayBill();
   const [plans, setPlans] = useState<BillingItem[]>([]);
-  const [amount, setAmount] = useState<number>(0);
   const network = form.watch("network");
   const planId = form.watch("planId");
 
@@ -56,7 +54,7 @@ export const DataTab = () => {
     if (planId && plans?.length > 0) {
       const amount = plans.find((p) => p.id === planId)?.amount;
       if (amount) {
-        setAmount(Math.round(amount / 100)); // convert amount to naira
+        form.setValue("amount", Math.round(amount / 100)); // convert amount to naira
       }
     }
   }, [planId, plans]);
@@ -83,7 +81,7 @@ export const DataTab = () => {
       payBill(
         {
           customerId: data.phone,
-          amount: amount, // in naira
+          amount: data.amount, // in naira
           requestReference: res.txnref,
           paymentCode: paymentCode,
         },
@@ -101,7 +99,7 @@ export const DataTab = () => {
     };
 
     checkout({
-      amount, // in naira
+      amount: data.amount, // in naira
       customerName: data.phone,
       onComplete: handleBillPayment,
     });
@@ -221,7 +219,10 @@ export const DataTab = () => {
           <PaySection
             control={form.control}
             watch={form.watch}
-            disable={!amount || amount < 50 || isPending}
+            disable={
+              !form.watch("amount") || form.watch("amount") < 50 || isPending
+            }
+            disableInput={true}
           />
         </form>
       </Form>

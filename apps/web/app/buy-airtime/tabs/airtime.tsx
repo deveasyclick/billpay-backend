@@ -38,7 +38,7 @@ export const AirtimeTab = () => {
     defaultValues: {
       phone: "",
       network: undefined,
-      amount: 0.0,
+      amount: 0,
       coin: "USDT",
     },
   });
@@ -134,7 +134,7 @@ export const AirtimeTab = () => {
                   defaultValue={field.value}
                 >
                   <FormControl>
-                    <SelectTrigger className="border-gray-200 focus:border-blue-500 focus:ring-blue-500 w-full shadow-md h-12! cursor-pointer">
+                    <SelectTrigger className="border-gray-200 focus:border-blue-500 focus:ring-blue-500 w-full shadow-md h-12! cursor-pointer focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:border-blue-500">
                       <SelectValue placeholder="Select network..." />
                     </SelectTrigger>
                   </FormControl>

@@ -1,4 +1,3 @@
-import { SUPPORTED_CRYPTO } from "@/buy-airtime/constants";
 import PaySection from "@/components/Pay";
 import {
   Form,
@@ -22,7 +21,6 @@ import { useBillingItems } from "@/lib/context/itemContext";
 import type { BillingItem } from "@/types/billingitem";
 import type { InterSwitchCheckoutResponse } from "@/types/checkout";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -34,7 +32,6 @@ export default function ElectricitySection() {
   const items = useBillingItems();
   const { mutate: payBill, isPending } = usePayBill();
 
-  console.log("items", items);
   const form = useForm<ElectricityForm>({
     resolver: zodResolver(ElectricitySchema),
     defaultValues: {
@@ -42,9 +39,10 @@ export default function ElectricitySection() {
       provider: "",
       amount: 0.0,
       package: "Prepaid",
+      coin: "USDT",
     },
   });
-
+  console.log({ items });
   const pkg = form.watch("package");
   // set electricity plans
   useEffect(() => {

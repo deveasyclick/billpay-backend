@@ -22,12 +22,13 @@ export default function PaySection({
   control,
   disable,
   watch,
+  disableInput = false,
 }: {
   control: any;
   disable: boolean;
   watch: any;
+  disableInput?: boolean;
 }) {
-  //const aamount = watch("amount");
   return (
     <div className="flex flex-col gap-[12px] self-stretch items-start">
       <FormField
@@ -40,7 +41,7 @@ export default function PaySection({
             </FormLabel>
             <Select onValueChange={field.onChange} defaultValue={field.value}>
               <FormControl>
-                <SelectTrigger className="h-12 border-gray-200 focus:border-blue-500 focus:ring-blue-500 rounded-xl bg-gray-100 p-0">
+                <SelectTrigger className="border-gray-200 focus:border-blue-500 focus:ring-blue-500 shadow-md cursor-pointer focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:border-blue-500 bg-gray-100">
                   <SelectValue placeholder="Select a coin..." />
                 </SelectTrigger>
               </FormControl>
@@ -84,15 +85,17 @@ export default function PaySection({
               render={({ field }) => (
                 <FormItem className="relative">
                   <FormControl>
-                    <>
+                    <div>
                       <Input
                         type="number"
                         min={100}
-                        onChange={(e) =>
-                          field.onChange(parseFloat(e.target.value) || 0)
-                        }
+                        onChange={(e) => {
+                          const val = e.target.value;
+                          field.onChange(val === "" ? 0 : parseFloat(val));
+                        }}
                         className="outline-0 bg-transparent focus:ring-0 border-none focus:outline-0 shadow-none focus:shadow-none focus-visible:ring-0 text-4xl! text-left font-bold p-0"
                         value={field.value}
+                        disabled={disableInput}
                       />
                       <CustomSpinner
                         onClickUp={(v: number) => {
@@ -105,9 +108,9 @@ export default function PaySection({
                           }
                           field.onChange((field.value || 0) - 100);
                         }}
-                        className="absolute left-9 right-0 top-2 bottom-0 font-bold"
+                        className="absolute left-15 right-0 top-2 bottom-0 font-bold"
                       />
-                    </>
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -143,11 +146,8 @@ export default function PaySection({
                     <Input
                       type="number"
                       min={100}
-                      onChange={(e) =>
-                        field.onChange(parseFloat(e.target.value) || 0)
-                      }
                       className="outline-0 bg-transparent focus:ring-0 border-none focus:outline-0 shadow-none focus:shadow-none focus-visible:ring-0 text-4xl! text-left font-bold p-0"
-                      value={field.value}
+                      value={field.value || "0"}
                       disabled
                     />
                   </FormControl>
