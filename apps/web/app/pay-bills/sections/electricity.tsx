@@ -1,0 +1,208 @@
+import { SUPPORTED_CRYPTO } from "@/buy-airtime/constants";
+import PaySection from "@/components/Pay";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { useInterswitchCheckout } from "@/hooks/use-interswitch-checkout";
+import { usePayBill } from "@/hooks/usePayBill";
+import { useBillingItems } from "@/lib/context/itemContext";
+import type { BillingItem } from "@/types/billingitem";
+import type { InterSwitchCheckoutResponse } from "@/types/checkout";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Image from "next/image";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { ElectricitySchema, type ElectricityForm } from "../schema/electricity";
+
+export default function ElectricitySection() {
+  const [plans, setPlans] = useState<BillingItem[]>([]);
+  const { checkout } = useInterswitchCheckout();
+  const items = useBillingItems();
+  const { mutate: payBill, isPending } = usePayBill();
+
+  console.log("items", items);
+  const form = useForm<ElectricityForm>({
+    resolver: zodResolver(ElectricitySchema),
+    defaultValues: {
+      meterNo: 0,
+      provider: "",
+      amount: 0.0,
+      package: "Prepaid",
+    },
+  });
+
+  const pkg = form.watch("package");
+  // set electricity plans
+  useEffect(() => {
+    if (items.length === 0) return;
+    const dataPlans = items.filter(
+      (i) => i.service === "ELECTRICITY" && i.displayName.includes(pkg)
+    );
+    setPlans(dataPlans);
+    form.setValue("provider", "");
+  }, [pkg]);
+
+  const onSubmit = (data: ElectricityForm) => {
+    const paymentCode = plans.find((p) => p.providerName === data.provider)
+      ?.providerMeta?.[0]?.paymentCode;
+
+    if (!paymentCode) {
+      console.log("paymentCode not found");
+      toast.error("An error occurred. Please try again later.");
+      return;
+    }
+
+    const handleBillPayment = async (res: InterSwitchCheckoutResponse) => {
+      payBill(
+        {
+          customerId: data.meterNo,
+          amount: data.amount, // in naira
+          requestReference: res.txnref,
+          paymentCode: paymentCode,
+        },
+        {
+          onSuccess(data) {
+            console.log("success", data);
+            toast.success("Payment successful 🎉");
+          },
+          onError(error) {
+            console.log("error", error);
+            toast.error(error.message);
+          },
+        }
+      );
+    };
+
+    checkout({
+      amount: data.amount, // in naira
+      customerName: String(data.meterNo),
+      onComplete: handleBillPayment,
+    });
+  };
+
+  return (
+    <div className="flex flex-col gap-[16px]">
+      <h1 className="text-3xl font-bold text-gray-900">Electricity</h1>
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="flex flex-col gap-[24px] self-stretch items-start w-full"
+        >
+          {/* Package Selection */}
+          <FormField
+            control={form.control}
+            name="package"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel className="text-sm font-medium text-gray-700">
+                  Package
+                </FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger className="border-gray-200 focus:border-blue-500 focus:ring-blue-500 w-full shadow-md h-12! cursor-pointer focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:border-blue-500">
+                      <SelectValue placeholder="Select a package..." />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="Prepaid">Prepaid</SelectItem>
+                    <SelectItem value="Postpaid">Postpaid</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* Provider Selection */}
+          <FormField
+            control={form.control}
+            name="provider"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel className="text-sm font-medium text-gray-700">
+                  Select service provider
+                </FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger className="border-gray-200 focus:border-blue-500 focus:ring-blue-500 w-full shadow-md h-12! cursor-pointer focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:border-blue-500">
+                      <SelectValue placeholder="Select provider..." />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {plans.map((p) => (
+                      <SelectItem key={p.providerName} value={p.providerName}>
+                        <div className="flex items-center space-x-3 w-full">
+                          {/* <span>
+                            <Image
+                              alt={`${p.providerName} logo`}
+                              src={""}
+                              height={25}
+                              width={25}
+                            />
+                          </span> */}
+                          <span>{p.providerName}</span>
+                        </div>
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* Meter Number */}
+          <FormField
+            control={form.control}
+            name="meterNo"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel className="text-sm font-medium text-gray-700">
+                  Meter Number
+                </FormLabel>
+                <FormControl>
+                  <div className="relative">
+                    <Input
+                      placeholder="What's your meter number?"
+                      {...field}
+                      className="flex py-[13px] px-[14.82px] gap-[7.412px] self-stretch flex-col shadow-md rounded-lg focus-visible:ring-blue-500 focus-visible:ring-2 focus-visible:border-0 outline-0 h-11"
+                    />
+                  </div>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <PaySection
+            control={form.control}
+            watch={form.watch}
+            disable={
+              !form.watch("amount") || form.watch("amount") < 50 || isPending
+            }
+          />
+        </form>
+      </Form>
+    </div>
+  );
+}

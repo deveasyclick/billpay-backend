@@ -1,3 +1,5 @@
+@import url("https://rsms.me/inter/inter.css");
+
 @import "tailwindcss";
 @import "tw-animate-css";
 
@@ -113,6 +115,11 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
+@theme {
+  --font-gilroy: "Gilroy", sans-serif;
+  --font-inter: Inter, sans-serif;
+}
+
 /* global.css */
 input[type="number"]::-webkit-inner-spin-button,
 input[type="number"]::-webkit-outer-spin-button {
@@ -122,4 +129,49 @@ input[type="number"]::-webkit-outer-spin-button {
 
 input[type="number"] {
   -moz-appearance: textfield; /* Firefox */
+}
+
+@font-face {
+  font-family: 'Gilroy Bold';
+  src: url('/fonts/Gilroy-Bold.ttf') format('ttf');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Gilroy';
+  src: url('/fonts/Gilroy-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Gilroy';
+  src: url('/fonts/Gilroy-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Gilroy';
+  src: url('/fonts/Gilroy-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Gilroy';
+  src: url('/fonts/Gilroy-Heavy.ttf') format('truetype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+body {
+  font-family: 'Gilroy Boss', sans-serif, Inter;
 }

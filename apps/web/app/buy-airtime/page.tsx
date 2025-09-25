@@ -5,22 +5,21 @@ import { AirtimeTab, DataTab } from "./tabs";
 
 export default function AirtimeOrDataPage() {
   return (
-    <div className="max-w-2xl mx-auto px-4 py-8">
+    <div className="w-full pt-[40px] flex items-center justify-center">
       <Tabs
         defaultTab="airtime"
-        activeClassName="text-blue-600 bg-blue-100 z-10"
+        activeClassName="text-blue-600 bg-blue-100 z-10 font-bold"
         items={[
           {
             key: "airtime",
             label: "Airtime",
             content: <AirtimeTab />,
-            className: "bg-gray-100",
           },
           {
             key: "data",
             label: "Data",
             content: <DataTab />,
-            className: "bg-gray-100 relative left-[-20px] z-0",
+            className: "relative left-[-20px] z-0",
           },
         ]}
       />

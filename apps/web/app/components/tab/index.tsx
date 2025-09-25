@@ -28,21 +28,21 @@ export function Tabs({
   return (
     <div
       className={cn(
-        "bg-white rounded-2xl shadow-sm border border-gray-100",
+        "bg-white rounded-2xl shadow-sm border border-gray-100 gap-[24px] flex flex-col p-[24px] w-[500px]",
         className
       )}
     >
       {/* Tab Navigation */}
       <div className="border-b border-gray-100">
-        <div className="grid grid-cols-2 w-9/10 mx-auto mt-4 relative">
+        <div className="grid grid-cols-2 relative">
           {items.map((item) => (
             <button
               key={item.key}
               onClick={() => setActive(item.key)}
               className={cn(
-                "font-medium transition-colors rounded-2xl py-2 text-gray-600 cursor-pointer",
+                "font-medium transition-colors rounded-2xl py-2 text-gray-400 cursor-pointer bg-gray-50",
                 item.className ?? "",
-                active === item.key && (activeClassName ?? "")
+                active === item.key ? activeClassName : "hover:text-gray-800"
               )}
             >
               {item.label}
