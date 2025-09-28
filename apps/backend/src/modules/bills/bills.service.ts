@@ -88,6 +88,7 @@ export class BillsService {
     return rules[type]?.() ?? false;
   }
 
+  // @deprecated
   async processBillPayment({
     amount: amountInNaira,
     customerId,
