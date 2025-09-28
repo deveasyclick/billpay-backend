@@ -36,6 +36,7 @@ export default function CableTVSection() {
       provider: "",
       amount: 0.0,
       package: "",
+      smartCardNumber: "",
     },
   });
 
@@ -83,7 +84,7 @@ export default function CableTVSection() {
 
     checkout({
       amount: data.amount,
-      customerId: data.smartCardNumber.toString(),
+      customerId: data.smartCardNumber,
       paymentCode,
     });
   };
@@ -204,7 +205,7 @@ export default function CableTVSection() {
 
           <PaySection
             control={form.control}
-            disable={!form.watch("amount") || form.watch("amount") < 100}
+            disable={!form.formState.isValid}
             disableInput={true}
           />
         </form>

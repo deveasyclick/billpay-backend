@@ -1,9 +1,9 @@
 import { z } from "zod";
 
 export const CableTVSchema = z.object({
-  smartCardNumber: z.transform(Number).pipe(z.number().min(50)),
-  provider: z.string(),
-  package: z.string(),
+  smartCardNumber: z.string().min(5, "Invalid Card Number"),
+  provider: z.string().min(1, "Please select a provider"),
+  package: z.string().min(1, "Please select a package"),
   amount: z.number().min(100),
 });
 

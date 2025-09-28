@@ -142,7 +142,7 @@ export const AirtimeTab = () => {
 
           <PaySection
             control={form.control}
-            disable={!form.watch("amount") || form.watch("amount") < 100}
+            disable={!form.formState.isValid}
           />
         </form>
       </Form>

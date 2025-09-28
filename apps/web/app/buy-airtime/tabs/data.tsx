@@ -18,10 +18,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useInterswitchCheckout } from "@/hooks/use-interswitch-checkout";
-import { usePayBill } from "@/hooks/usePayBill";
 import { useBillingItems } from "@/lib/context/itemContext";
+import { NetworkProvider } from "@/types";
 import type { BillingItem } from "@/types/billingitem";
-import type { InterSwitchCheckoutResponse } from "@/types/checkout";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -29,7 +28,6 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { SUPPORTED_NETWORKS } from "../constants";
 import { DataFormSchema, type DataForm } from "../schema/data.schema";
-import { NetworkProvider } from "@/types";
 
 interface DataTabProps {}
 
@@ -197,7 +195,7 @@ export const DataTab = () => {
 
           <PaySection
             control={form.control}
-            disable={!form.watch("amount") || form.watch("amount") < 100}
+            disable={!form.formState.isValid}
             disableInput={true}
           />
         </form>

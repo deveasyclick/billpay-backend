@@ -16,10 +16,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useInterswitchCheckout } from "@/hooks/use-interswitch-checkout";
-import { usePayBill } from "@/hooks/usePayBill";
 import { useBillingItems } from "@/lib/context/itemContext";
 import type { BillingItem } from "@/types/billingitem";
-import type { InterSwitchCheckoutResponse } from "@/types/checkout";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -131,10 +129,7 @@ export default function BettingSection() {
             )}
           />
 
-          <PaySection
-            control={form.control}
-            disable={!form.watch("amount") || form.watch("amount") < 100}
-          />
+          <PaySection control={form.control} disable={form.formState.isValid} />
         </form>
       </Form>
     </div>

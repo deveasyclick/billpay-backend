@@ -1,8 +1,8 @@
 import { z } from "zod";
 
 export const ElectricitySchema = z.object({
-  meterNo: z.transform(Number).pipe(z.number()),
-  provider: z.string(),
+  meterNo: z.string().min(5, "Invalid Meter Number"),
+  provider: z.string().min(1, "Please select a provider"),
   package: z.enum(["Prepaid", "Postpaid"]),
   amount: z.preprocess((a) => {
     if (typeof a === "string") return parseInt(a, 10);

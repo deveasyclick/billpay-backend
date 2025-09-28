@@ -32,13 +32,12 @@ export default function ElectricitySection() {
   const form = useForm<ElectricityForm>({
     resolver: zodResolver(ElectricitySchema),
     defaultValues: {
-      meterNo: 0,
+      meterNo: "",
       provider: "",
       amount: 0.0,
       package: "Prepaid",
     },
   });
-  console.log({ items });
   const pkg = form.watch("package");
   // set electricity plans
   useEffect(() => {
@@ -62,7 +61,7 @@ export default function ElectricitySection() {
 
     checkout({
       amount: data.amount,
-      customerId: data.meterNo.toString(),
+      customerId: data.meterNo,
       paymentCode,
     });
   };
@@ -169,7 +168,7 @@ export default function ElectricitySection() {
 
           <PaySection
             control={form.control}
-            disable={!form.watch("amount") || form.watch("amount") < 100}
+            disable={!form.formState.isValid}
           />
         </form>
       </Form>
