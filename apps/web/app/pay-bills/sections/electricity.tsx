@@ -28,7 +28,7 @@ export default function ElectricitySection() {
   const [plans, setPlans] = useState<BillingItem[]>([]);
   const { checkout } = useInterswitchCheckout();
   const items = useBillingItems();
-
+  console.log("items", items);
   const form = useForm<ElectricityForm>({
     resolver: zodResolver(ElectricitySchema),
     defaultValues: {
