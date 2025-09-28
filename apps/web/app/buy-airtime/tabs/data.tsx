@@ -44,7 +44,6 @@ export const DataTab = () => {
     },
   });
   const items = useBillingItems();
-  const { mutate: payBill, isPending } = usePayBill();
   const [plans, setPlans] = useState<BillingItem[]>([]);
   const network = form.watch("network");
   const planId = form.watch("planId");
@@ -76,31 +75,10 @@ export const DataTab = () => {
       return;
     }
 
-    const handleBillPayment = async (res: InterSwitchCheckoutResponse) => {
-      payBill(
-        {
-          customerId: data.phone,
-          amount: data.amount, // in naira
-          requestReference: res.txnref,
-          paymentCode: paymentCode,
-        },
-        {
-          onSuccess(data) {
-            console.log("success", data);
-            toast.success("Payment successful 🎉");
-          },
-          onError(error) {
-            console.log("error", error);
-            toast.error(error.message);
-          },
-        }
-      );
-    };
-
     checkout({
-      amount: data.amount, // in naira
-      customerName: data.phone,
-      onComplete: handleBillPayment,
+      amount: data.amount,
+      customerId: data.phone,
+      paymentCode,
     });
   };
 
@@ -219,9 +197,7 @@ export const DataTab = () => {
 
           <PaySection
             control={form.control}
-            disable={
-              !form.watch("amount") || form.watch("amount") < 100 || isPending
-            }
+            disable={!form.watch("amount") || form.watch("amount") < 100}
             disableInput={true}
           />
         </form>

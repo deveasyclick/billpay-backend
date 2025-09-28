@@ -18,19 +18,18 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useInterswitchCheckout } from "@/hooks/use-interswitch-checkout";
-import { usePayBill } from "@/hooks/usePayBill";
 import { useBillingItems } from "@/lib/context/itemContext";
-import type { InterSwitchCheckoutResponse } from "@/types/checkout";
+import { NetworkProvider } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { AirtimeFormSchema, type AirtimeForm } from "../schema/airtime.schema";
 import { SUPPORTED_NETWORKS } from "../constants";
-import { NetworkProvider } from "@/types";
+import { AirtimeFormSchema, type AirtimeForm } from "../schema/airtime.schema";
 
 interface AirtimeTabProps {}
 
+// Note: Can't pay less than 200 in test mode
 export const AirtimeTab = () => {
   const { checkout } = useInterswitchCheckout();
   const form = useForm<AirtimeForm>({
@@ -42,7 +41,6 @@ export const AirtimeTab = () => {
     },
   });
   const items = useBillingItems();
-  const { mutate: payBill, isPending } = usePayBill();
 
   const onSubmit = (data: AirtimeForm) => {
     const metadata = items.find(
@@ -62,33 +60,13 @@ export const AirtimeTab = () => {
       return;
     }
 
-    const handleBillPayment = async (res: InterSwitchCheckoutResponse) => {
-      payBill(
-        {
-          customerId: data.phone,
-          amount: data.amount,
-          requestReference: res.txnref,
-          paymentCode: paymentCode,
-        },
-        {
-          onSuccess(data) {
-            console.log("success", data);
-            toast.success("Payment successful 🎉");
-          },
-          onError(error) {
-            console.log("error", error);
-            toast.error(error.message);
-          },
-        }
-      );
-    };
-
     checkout({
       amount: data.amount,
-      customerName: data.phone,
-      onComplete: handleBillPayment,
+      customerId: data.phone,
+      paymentCode,
     });
   };
+
   return (
     <div className="flex flex-col gap-[16px]">
       <h1 className="text-3xl font-bold text-gray-900">Buy Airtime</h1>
@@ -164,9 +142,7 @@ export const AirtimeTab = () => {
 
           <PaySection
             control={form.control}
-            disable={
-              !form.watch("amount") || form.watch("amount") < 100 || isPending
-            }
+            disable={!form.watch("amount") || form.watch("amount") < 100}
           />
         </form>
       </Form>

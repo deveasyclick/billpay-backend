@@ -7,20 +7,18 @@ import { toast } from "sonner";
 
 type CheckoutOptions = {
   amount: number; // in minor units
-  customerName?: string;
-  customerEmail?: string;
   currency?: number; // ISO 4217 currency code
   site_redirect_path?: string;
-  onComplete?: (response: InterSwitchCheckoutResponse) => void;
+  paymentCode: string; // Gotten from payment item
+  customerId: string; // phone number, meter number, decoder number, etc.
 };
 
 export function useInterswitchCheckout() {
   const checkout = ({
     amount,
-    customerName,
-    customerEmail,
     currency = 566, // NGN
-    onComplete,
+    paymentCode,
+    customerId,
     site_redirect_path = "/",
   }: CheckoutOptions) => {
     if (!window.webpayCheckout) {
@@ -31,9 +29,11 @@ export function useInterswitchCheckout() {
       amount: amount * 100, // convert amount to kobo (1 naira = 100 kobo)
       currency, // NGN
       site_redirect_url: `${window.location.origin}${site_redirect_path}`,
-      cust_name: customerName,
-      cust_email: customerEmail,
+      cust_name: paymentCode,
+      cust_id: customerId,
     };
+
+    //validateAmount(options.amount, options.amountType);
     const paymentReference = generateTxnRef();
     window.webpayCheckout({
       ...cleanObject(options),
@@ -41,12 +41,13 @@ export function useInterswitchCheckout() {
       pay_item_id: env.interswitchPayItemId,
       txn_ref: paymentReference,
       mode: env.environment === "production" ? "LIVE" : "TEST",
+      pay_item_name: "Pay Bill",
       onComplete: async (resp: InterSwitchCheckoutResponse) => {
         if (resp.resp === "Z6") {
           toast.error("Payment cancelled 😢");
           return;
         }
-        await onComplete?.(resp);
+        toast.success("Payment successful 🎉");
       },
     });
   };

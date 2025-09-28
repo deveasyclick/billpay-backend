@@ -16,10 +16,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useInterswitchCheckout } from "@/hooks/use-interswitch-checkout";
-import { usePayBill } from "@/hooks/usePayBill";
 import { useBillingItems } from "@/lib/context/itemContext";
 import type { BillingItem } from "@/types/billingitem";
-import type { InterSwitchCheckoutResponse } from "@/types/checkout";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -30,7 +28,6 @@ export default function ElectricitySection() {
   const [plans, setPlans] = useState<BillingItem[]>([]);
   const { checkout } = useInterswitchCheckout();
   const items = useBillingItems();
-  const { mutate: payBill, isPending } = usePayBill();
 
   const form = useForm<ElectricityForm>({
     resolver: zodResolver(ElectricitySchema),
@@ -63,31 +60,10 @@ export default function ElectricitySection() {
       return;
     }
 
-    const handleBillPayment = async (res: InterSwitchCheckoutResponse) => {
-      payBill(
-        {
-          customerId: data.meterNo,
-          amount: data.amount, // in naira
-          requestReference: res.txnref,
-          paymentCode: paymentCode,
-        },
-        {
-          onSuccess(data) {
-            console.log("success", data);
-            toast.success("Payment successful 🎉");
-          },
-          onError(error) {
-            console.log("error", error);
-            toast.error(error.message);
-          },
-        }
-      );
-    };
-
     checkout({
-      amount: data.amount, // in naira
-      customerName: String(data.meterNo),
-      onComplete: handleBillPayment,
+      amount: data.amount,
+      customerId: data.meterNo.toString(),
+      paymentCode,
     });
   };
 
@@ -193,9 +169,7 @@ export default function ElectricitySection() {
 
           <PaySection
             control={form.control}
-            disable={
-              !form.watch("amount") || form.watch("amount") < 100 || isPending
-            }
+            disable={!form.watch("amount") || form.watch("amount") < 100}
           />
         </form>
       </Form>
