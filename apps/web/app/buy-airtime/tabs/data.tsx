@@ -40,7 +40,6 @@ export const DataTab = () => {
     defaultValues: {
       phone: "",
       network: NetworkProvider.MTN,
-      coin: "USDT",
       amount: 0,
     },
   });
@@ -220,9 +219,8 @@ export const DataTab = () => {
 
           <PaySection
             control={form.control}
-            watch={form.watch}
             disable={
-              !form.watch("amount") || form.watch("amount") < 50 || isPending
+              !form.watch("amount") || form.watch("amount") < 100 || isPending
             }
             disableInput={true}
           />

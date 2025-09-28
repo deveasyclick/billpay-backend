@@ -39,7 +39,6 @@ export default function BettingSection() {
       userId: "",
       provider: "",
       amount: 0.0,
-      coin: "USDT",
     },
   });
 
@@ -119,14 +118,6 @@ export default function BettingSection() {
                     {providers.map((p) => (
                       <SelectItem key={p.providerName} value={p.providerName}>
                         <div className="flex items-center space-x-3 w-full">
-                          {/* <span>
-                            <Image
-                              alt={`${p.providerName} logo`}
-                              src={""}
-                              height={25}
-                              width={25}
-                            />
-                          </span> */}
                           <span>{p.providerName}</span>
                         </div>
                       </SelectItem>
@@ -165,9 +156,8 @@ export default function BettingSection() {
           <PaySection
             control={form.control}
             disable={
-              !form.watch("amount") || form.watch("amount") < 50 || isPending
+              !form.watch("amount") || form.watch("amount") < 100 || isPending
             }
-            watch={form.watch}
           />
         </form>
       </Form>

@@ -1,8 +1,8 @@
-import { ArrowUpDown, ShieldCheck } from "lucide-react";
+"use client";
+
+import { ShieldCheck } from "lucide-react";
 import Image from "next/image";
-import type { UseFormWatch } from "react-hook-form";
 import CustomSpinner from "./CustomSpinner";
-import Network from "./Network";
 import { Button } from "./ui/button";
 import { FormControl, FormField, FormItem, FormMessage } from "./ui/form";
 import { Input } from "./ui/input";
@@ -10,57 +10,21 @@ import { Input } from "./ui/input";
 interface PaySectionProps {
   control: any;
   disable: boolean;
-  watch: UseFormWatch<any>;
   disableInput?: boolean;
 }
 
 export default function PaySection({
   control,
   disable,
-  watch,
   disableInput = false,
 }: PaySectionProps) {
   return (
     <div className="flex flex-col gap-[12px] self-stretch items-start">
-      <div className="flex py-[4px] px-0 justify-end items-center gap-[8px]">
-        <p className="opacity-50 text-xs">Choose network:</p>
-        <Button
-          type="button"
-          variant="default"
-          className="bg-gray-100 text-black py-[6px] pr-[8px] pl-[4px]! hover:bg-gray-100 cursor-pointer flex items-center gap-[8px] rounded-[100px] h-auto"
-        >
-          <Network />
-          <div></div>
-          <p>USDT</p>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="17"
-            viewBox="0 0 16 17"
-            fill="none"
-          >
-            <path
-              d="M13 5.72656L8 10.7266L3 5.72656"
-              stroke="#010109"
-              strokeOpacity="0.5"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </Button>
-      </div>
-
       {/* Pay Section */}
-      <div className="flex flex-col gap-1">
-        <div className="flex bg-[#F8F8F8] rounded-lg p-[12px] gap-[8px] self-stretch relative">
-          <div className="absolute bottom-[-20px] right-[200px]">
-            <span className="bg-white p-3 flex rounded-full">
-              <ArrowUpDown width={20} height={20} />
-            </span>
-          </div>
+      <div className="flex flex-row w-full">
+        <div className="flex bg-[#F8F8F8] rounded-lg p-[12px] gap-[8px] self-stretch relative w-full">
           <div className="w-1/2 flex items-start flex-col gap-[8px]">
-            <p className="text-xs">You pay USDT worth</p>
+            <p className="text-xs">You pay an amount of</p>
             <FormField
               control={control}
               name="amount"
@@ -110,36 +74,12 @@ export default function PaySection({
           </div>
           <div className="w-1/2 flex flex-row justify-end items-center">
             <div className="bg-white flex gap-[4px] items-center py-[4px] pr-[6px] pl-[4px] rounded-[100px] border-[0.3px] border-gray-100">
-              <Network />
-              <div></div>
-              <span className="pl-1 font-medium leading-snug">
-                {watch("coin")}
-              </span>
-            </div>
-          </div>
-        </div>
-        <div className="flex rounded-lg p-[12px] gap-[8px] self-stretch bg-[#F8F8F8]">
-          <div className="w-1/2 flex items-start flex-col gap-[8px]">
-            <p className="text-xs text-gray-400">You receive airtime of</p>
-            <Input
-              type="number"
-              min={100}
-              className="outline-0 bg-transparent focus:ring-0 border-none focus:outline-0 shadow-none focus:shadow-none focus-visible:ring-0 text-4xl! text-left font-bold p-0"
-              value={watch("amount") || 0}
-              disabled
-            />
-          </div>
-          <div className="w-1/2 flex flex-row justify-end items-center">
-            <div className="bg-white flex gap-[4px] items-center py-[4px] pr-[6px] pl-[4px] rounded-[100px] border-[0.3px] border-gray-100">
-              <span>
-                <Image
-                  src="/icons/nigeria-flag.svg"
-                  alt="flag"
-                  width={25}
-                  height={10}
-                  className="object-contain"
-                />
-              </span>
+              <Image
+                alt="Nigeria flag"
+                src="/icons/nigeria-flag.svg"
+                height={20}
+                width={20}
+              />
               <span className="pl-1 font-medium leading-snug">NGN</span>
             </div>
           </div>

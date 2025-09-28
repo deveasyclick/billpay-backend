@@ -28,12 +28,10 @@ import { toast } from "sonner";
 import { AirtimeFormSchema, type AirtimeForm } from "../schema/airtime.schema";
 import { SUPPORTED_NETWORKS } from "../constants";
 import { NetworkProvider } from "@/types";
-import { Coin } from "../../types/index";
 
 interface AirtimeTabProps {}
 
 export const AirtimeTab = () => {
-  // Airtime form
   const { checkout } = useInterswitchCheckout();
   const form = useForm<AirtimeForm>({
     resolver: zodResolver(AirtimeFormSchema),
@@ -41,7 +39,6 @@ export const AirtimeTab = () => {
       phone: "",
       network: NetworkProvider.MTN,
       amount: 0,
-      coin: Coin.USDT,
     },
   });
   const items = useBillingItems();
@@ -167,9 +164,8 @@ export const AirtimeTab = () => {
 
           <PaySection
             control={form.control}
-            watch={form.watch}
             disable={
-              !form.watch("amount") || form.watch("amount") < 50 || isPending
+              !form.watch("amount") || form.watch("amount") < 100 || isPending
             }
           />
         </form>

@@ -8,9 +8,3 @@ export enum NetworkProvider {
   AIRTEL = "airtel",
   NINEMOBILE = "9mobile",
 }
-
-export enum Coin {
-  USDT = "USDT",
-  USDC = "USDC",
-  BUSD = "BUSD",
-}

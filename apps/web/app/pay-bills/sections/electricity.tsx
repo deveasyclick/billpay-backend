@@ -39,7 +39,6 @@ export default function ElectricitySection() {
       provider: "",
       amount: 0.0,
       package: "Prepaid",
-      coin: "USDT",
     },
   });
   console.log({ items });
@@ -194,9 +193,8 @@ export default function ElectricitySection() {
 
           <PaySection
             control={form.control}
-            watch={form.watch}
             disable={
-              !form.watch("amount") || form.watch("amount") < 50 || isPending
+              !form.watch("amount") || form.watch("amount") < 100 || isPending
             }
           />
         </form>

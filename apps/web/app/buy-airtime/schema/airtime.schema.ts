@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { NetworkProvider, Coin } from "@/types";
+import { NetworkProvider } from "@/types";
 
 export const AirtimeFormSchema = z.object({
   phone: z
@@ -22,12 +22,14 @@ export const AirtimeFormSchema = z.object({
     .enum(NetworkProvider)
     .refine((val) => !!val, { message: "Network is required" }),
 
-  amount: z.preprocess(
-    (a) => parseInt(z.string().parse(a), 10),
-    z.number().positive().min(1)
-  ) as z.ZodPipe<z.ZodTransform<number, number>, z.ZodNumber>,
-
-  coin: z.enum(Coin),
+  amount: z.preprocess((a) => {
+    if (typeof a === "string") return parseInt(a, 10);
+    if (typeof a === "number") return a;
+    return 0; // fallback
+  }, z.number().positive().min(100)) as z.ZodPipe<
+    z.ZodTransform<number, number>,
+    z.ZodNumber
+  >,
 });
 
 export type AirtimeForm = z.infer<typeof AirtimeFormSchema>;

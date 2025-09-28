@@ -39,7 +39,6 @@ export default function CableTVSection() {
       provider: "",
       amount: 0.0,
       package: "",
-      coin: "USDT",
     },
   });
 
@@ -230,9 +229,8 @@ export default function CableTVSection() {
           <PaySection
             control={form.control}
             disable={
-              !form.watch("amount") || form.watch("amount") < 50 || isPending
+              !form.watch("amount") || form.watch("amount") < 100 || isPending
             }
-            watch={form.watch}
             disableInput={true}
           />
         </form>

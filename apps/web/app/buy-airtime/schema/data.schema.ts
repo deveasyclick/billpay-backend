@@ -21,8 +21,6 @@ export const DataFormSchema = z.object({
     .enum(["mtn", "glo", "airtel", "9mobile"])
     .refine((val) => !!val, { message: "Network is required" }),
 
-  coin: z.enum(["USDT", "USDC", "BUSD"]),
-
   planId: z.string(),
   amount: z.number().min(100),
 });
