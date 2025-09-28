@@ -33,7 +33,7 @@ export function Tabs({
       )}
     >
       {/* Tab Navigation */}
-      <div className="border-b border-gray-100">
+      <div>
         <div className="grid grid-cols-2 relative">
           {items.map((item) => (
             <button
@@ -53,6 +53,17 @@ export function Tabs({
 
       {/* Active Tab Content */}
       <div>{items.find((i) => i.key === active)?.content}</div>
+      <div className="flex p-[12px] justify-between items-start rounded-[12px] bg-blue-100">
+        <p className="text-sm rounded-lg font-inter">
+          Need to keep track of your transactions?
+          <a
+            href="#"
+            className="text-blue-600 hover:text-blue-700 font-medium underline inline-block ml-7 "
+          >
+            Sign up now →
+          </a>
+        </p>
+      </div>
     </div>
   );
 }

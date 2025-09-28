@@ -27,9 +27,9 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { NetworkProvider } from "../airtime.schema";
 import { SUPPORTED_NETWORKS } from "../constants";
-import { DataFormSchema, type DataForm } from "../data.schema";
+import { DataFormSchema, type DataForm } from "../schema/data.schema";
+import { NetworkProvider } from "@/types";
 
 interface DataTabProps {}
 
@@ -121,13 +121,15 @@ export const DataTab = () => {
             name="phone"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel className="text-gray-700">Phone Number</FormLabel>
+                <FormLabel className="text-gray-700 text-xs">
+                  Phone Number
+                </FormLabel>
                 <FormControl>
                   <div className="relative">
                     <Input
                       placeholder="What's your phone number?"
                       {...field}
-                      className="flex py-[13px] px-[14.82px] gap-[7.412px] self-stretch flex-col shadow-md rounded-lg focus-visible:ring-blue-500 focus-visible:ring-2 focus-visible:border-0 outline-0 h-11"
+                      className="flex py-[13px] px-[14.82px] gap-[7.412px] self-stretch flex-col shadow-sm rounded-lg focus-visible:ring-blue-500 focus-visible:ring-2 focus-visible:border-0 outline-0 h-11"
                     />
                   </div>
                 </FormControl>
@@ -192,7 +194,7 @@ export const DataTab = () => {
                     defaultValue={field.value}
                   >
                     <FormControl>
-                      <SelectTrigger className="border-gray-200 focus:border-blue-500 focus:ring-blue-500 w-full shadow-md h-12! cursor-pointer">
+                      <SelectTrigger className="border-gray-200 focus:border-blue-500 focus:ring-blue-500 w-full shadow-sm h-12! cursor-pointer focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:border-blue-500">
                         <SelectValue placeholder="Select plan..." />
                       </SelectTrigger>
                     </FormControl>
@@ -226,16 +228,6 @@ export const DataTab = () => {
           />
         </form>
       </Form>
-
-      {/* Footer */}
-      <div className="text-center pt-6 border-t border-gray-100">
-        <p className="text-sm text-gray-600 bg-blue-100 p-2 rounded-lg">
-          Need to keep track of your transactions?{" "}
-          <a href="#" className="text-blue-600 hover:text-blue-700 font-medium">
-            Sign up now →
-          </a>
-        </p>
-      </div>
     </div>
   );
 };

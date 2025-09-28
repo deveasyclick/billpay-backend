@@ -1,8 +1,7 @@
 import { cn } from "@/lib/utils";
-import type { FormEvent } from "react";
 
 interface CustomSpinnerProps {
-  onClickUp: (v: number) => void;
+  onClickUp: () => void;
   onClickDown: () => void;
   className?: string;
 }
@@ -16,7 +15,7 @@ export default function CustomSpinner({
     <div className={cn("flex flex-col", className ? className : "")}>
       <button
         type="button"
-        onChange={(e) => onClickUp(parseFloat(e.currentTarget.value) || 0)}
+        onClick={onClickUp}
         className="px-2 text-gray-500 hover:text-black cursor-pointer"
       >
         <svg

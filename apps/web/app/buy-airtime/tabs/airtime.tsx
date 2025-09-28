@@ -25,8 +25,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { AirtimeFormSchema, type AirtimeForm } from "../airtime.schema";
+import { AirtimeFormSchema, type AirtimeForm } from "../schema/airtime.schema";
 import { SUPPORTED_NETWORKS } from "../constants";
+import { NetworkProvider } from "@/types";
+import { Coin } from "../../types/index";
 
 interface AirtimeTabProps {}
 
@@ -37,9 +39,9 @@ export const AirtimeTab = () => {
     resolver: zodResolver(AirtimeFormSchema),
     defaultValues: {
       phone: "",
-      network: undefined,
+      network: NetworkProvider.MTN,
       amount: 0,
-      coin: "USDT",
+      coin: Coin.USDT,
     },
   });
   const items = useBillingItems();
@@ -105,13 +107,15 @@ export const AirtimeTab = () => {
             name="phone"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel className="text-gray-700">Phone Number</FormLabel>
+                <FormLabel className="text-gray-700 text-xs">
+                  Phone Number
+                </FormLabel>
                 <FormControl>
                   <div className="relative">
                     <Input
                       placeholder="What's your phone number?"
                       {...field}
-                      className="flex py-[13px] px-[14.82px] gap-[7.412px] self-stretch flex-col shadow-md rounded-lg focus-visible:ring-blue-500 focus-visible:ring-2 focus-visible:border-0 outline-0 h-11"
+                      className="flex py-[13px] px-[14.82px] gap-[7.412px] self-stretch flex-col shadow-sm rounded-lg focus-visible:ring-blue-500 focus-visible:ring-2 focus-visible:border-0 outline-0 h-11"
                     />
                   </div>
                 </FormControl>
@@ -134,7 +138,7 @@ export const AirtimeTab = () => {
                   defaultValue={field.value}
                 >
                   <FormControl>
-                    <SelectTrigger className="border-gray-200 focus:border-blue-500 focus:ring-blue-500 w-full shadow-md h-12! cursor-pointer focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:border-blue-500">
+                    <SelectTrigger className="border-gray-200 focus:border-blue-500 focus:ring-blue-500 w-full shadow-sm h-12! cursor-pointer focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:border-blue-500">
                       <SelectValue placeholder="Select network..." />
                     </SelectTrigger>
                   </FormControl>
@@ -170,19 +174,6 @@ export const AirtimeTab = () => {
           />
         </form>
       </Form>
-
-      {/* Footer */}
-      <div className="flex p-[12px] justify-between items-start rounded-[12px]">
-        <p className="text-sm bg-blue-100 p-2 rounded-lg font-inter">
-          Need to keep track of your transactions?
-          <a
-            href="#"
-            className="text-blue-600 hover:text-blue-700 font-medium underline inline-block ml-7 "
-          >
-            Sign up now →
-          </a>
-        </p>
-      </div>
     </div>
   );
 };

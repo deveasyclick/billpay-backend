@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Fingerprint, PlusCircle, SmartphoneCharging } from "lucide-react";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -25,7 +26,12 @@ export default function Header() {
     <header className="flex flex-row justify-center items-center gap-[8px] py-0 pr-[12px] pl-[24px] rounded-[32px] bg-white b-[0.6px] border-solid border-[#E5E5E5] w-[950px] justify-self-center min-h-[60px]">
       {/* Logo */}
       <div className="flex items-center gap-[4px]">
-        <SmartphoneCharging className="text-blue-600" width={19} height={20} />
+        <Image
+          src="/icons/logo.svg"
+          alt="Elites Africa"
+          width={19}
+          height={20}
+        />
         <span className="font-bold text-[16px]">ELITES AFRICA</span>
       </div>
 

@@ -20,8 +20,8 @@ export default function BillList({
   return (
     <div
       className={cn(
-        "flex min-width-[128px] py-[12px] px-[8px] items-center gap-2 self-stretch rounded-[12px] border-[0.4px] hover:bg-blue-100 cursor-pointer",
-        active && "bg-blue-100"
+        "flex min-width-[128px] py-[12px] px-[8px] items-center gap-2 self-stretch rounded-[12px] hover:bg-blue-600/10 cursor-pointer",
+        active && "bg-blue-600/10"
       )}
       onClick={() => setActiveTab(category)}
     >

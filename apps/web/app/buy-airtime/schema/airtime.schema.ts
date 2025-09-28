@@ -1,12 +1,7 @@
 import { z } from "zod";
+import { NetworkProvider, Coin } from "@/types";
 
-export enum Coin {
-  USDT = "USDT",
-  USDC = "USDC",
-  BUSD = "BUSD",
-}
-
-export const DataFormSchema = z.object({
+export const AirtimeFormSchema = z.object({
   phone: z
     .string()
     .regex(/^(?:0\d{10}|\+?[1-9]\d{7,14})$/, "Enter a valid phone number")
@@ -24,13 +19,15 @@ export const DataFormSchema = z.object({
     }),
 
   network: z
-    .enum(["mtn", "glo", "airtel", "9mobile"])
+    .enum(NetworkProvider)
     .refine((val) => !!val, { message: "Network is required" }),
 
-  coin: z.enum(["USDT", "USDC", "BUSD"]),
+  amount: z.preprocess(
+    (a) => parseInt(z.string().parse(a), 10),
+    z.number().positive().min(1)
+  ) as z.ZodPipe<z.ZodTransform<number, number>, z.ZodNumber>,
 
-  planId: z.string(),
-  amount: z.number().min(100),
+  coin: z.enum(Coin),
 });
 
-export type DataForm = z.infer<typeof DataFormSchema>;
+export type AirtimeForm = z.infer<typeof AirtimeFormSchema>;
