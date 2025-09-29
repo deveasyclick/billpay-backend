@@ -80,13 +80,13 @@ export default function PaySection({
         <Button
           type="button"
           variant="outline"
-          className="border-blue-500 text-blue-500 cursor-pointer hover:bg-blue-100 hover:text-blue-500  h-[37px]"
+          className="border-blue-500 text-blue-500 cursor-pointer hover:bg-blue-100 hover:text-blue-500  h-[44px]"
         >
           Cancel
         </Button>
         <Button
           type="submit"
-          className="flex-2 bg-indigo-400 hover:bg-indigo-700 text-white font-medium cursor-pointer w-full"
+          className="flex-2 bg-indigo-400 hover:bg-indigo-700 text-white font-medium cursor-pointer w-full h-[44px]"
           disabled={disable}
         >
           Proceed to Pay <ShieldCheck />

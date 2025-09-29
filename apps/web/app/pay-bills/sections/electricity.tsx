@@ -90,7 +90,7 @@ export default function ElectricitySection() {
                   defaultValue={field.value}
                 >
                   <FormControl>
-                    <SelectTrigger className="border-gray-200 focus:border-blue-500 focus:ring-blue-500 w-full shadow-md h-12! cursor-pointer focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:border-blue-500">
+                    <SelectTrigger className="border-gray-200 focus:border-blue-500 focus:ring-blue-500 w-full shadow-sm h-12! cursor-pointer focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:border-blue-500">
                       <SelectValue placeholder="Select a package..." />
                     </SelectTrigger>
                   </FormControl>
@@ -118,7 +118,7 @@ export default function ElectricitySection() {
                   defaultValue={field.value}
                 >
                   <FormControl>
-                    <SelectTrigger className="border-gray-200 focus:border-blue-500 focus:ring-blue-500 w-full shadow-md h-12! cursor-pointer focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:border-blue-500">
+                    <SelectTrigger className="border-gray-200 focus:border-blue-500 focus:ring-blue-500 w-full shadow-sm h-12! cursor-pointer focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:border-blue-500">
                       <SelectValue placeholder="Select provider..." />
                     </SelectTrigger>
                   </FormControl>
@@ -160,7 +160,7 @@ export default function ElectricitySection() {
                       type="number"
                       placeholder="What's your meter number?"
                       {...field}
-                      className="flex py-[13px] px-[14.82px] gap-[7.412px] self-stretch flex-col shadow-md rounded-lg focus-visible:ring-blue-500 focus-visible:ring-2 focus-visible:border-0 outline-0 h-11"
+                      className="flex py-[13px] px-[14.82px] gap-[7.412px] self-stretch flex-col shadow-sm rounded-lg focus-visible:ring-blue-500 focus-visible:ring-2 focus-visible:border-0 outline-0 h-11"
                     />
                   </div>
                 </FormControl>

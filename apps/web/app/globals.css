@@ -5,6 +5,15 @@
 
 @custom-variant dark (&:is(.dark *));
 
+
+@layer utilities {
+  input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px theme('colors.white') inset !important;
+    -webkit-text-fill-color: theme('colors.gray.900') !important;
+    caret-color: theme('colors.gray.900');
+  }
+}
+
 :root {
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
