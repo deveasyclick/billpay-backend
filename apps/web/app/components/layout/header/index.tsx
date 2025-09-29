@@ -64,10 +64,10 @@ export default function Header() {
         </Button>
         <Button
           size="sm"
-          className="hover:bg-blue-600 hover:text-white border-2 border-gray-200 rounded-2xl bg-transparent text-blue-500 p-4 cursor-pointer font-bold"
+          className="hover:bg-blue-600 hover:text-white border-2 border-gray-200 rounded-2xl bg-transparent text-blue-500 p-4 cursor-pointer font-bold font-inter"
         >
           <PlusCircle className="w-4 h-4" />
-          Sign up
+          Sign Up
         </Button>
       </div>
     </header>
