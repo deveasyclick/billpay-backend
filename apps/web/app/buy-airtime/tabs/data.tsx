@@ -102,6 +102,7 @@ export const DataTab = () => {
                 <FormControl>
                   <div className="relative">
                     <Input
+                      type="number"
                       placeholder="What's your phone number?"
                       {...field}
                       className="flex py-[13px] px-[14.82px] gap-[7.412px] self-stretch flex-col shadow-sm rounded-lg focus-visible:ring-blue-500 focus-visible:ring-2 focus-visible:border-0 outline-0 h-11"
