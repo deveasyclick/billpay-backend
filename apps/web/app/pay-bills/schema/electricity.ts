@@ -8,7 +8,7 @@ export const ElectricitySchema = z.object({
     if (typeof a === "string") return parseInt(a, 10);
     if (typeof a === "number") return a;
     return 0; // fallback
-  }, z.number().positive().min(100)) as z.ZodPipe<
+  }, z.number().positive().min(1000)) as z.ZodPipe<
     z.ZodTransform<number, number>,
     z.ZodNumber
   >,

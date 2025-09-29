@@ -2,7 +2,6 @@
 
 import { ShieldCheck } from "lucide-react";
 import Image from "next/image";
-import CustomSpinner from "./CustomSpinner";
 import { Button } from "./ui/button";
 import { FormControl, FormField, FormItem, FormMessage } from "./ui/form";
 import { Input } from "./ui/input";
@@ -41,7 +40,7 @@ export default function PaySection({
                       <Input
                         type="text"
                         min={100}
-                        className="outline-0 bg-transparent focus:ring-0 border-none focus:outline-0 shadow-none focus:shadow-none focus-visible:ring-0 text-4xl! text-left font-bold p-0 inline-block min-w-[5px] max-w-full"
+                        className="outline-0 bg-transparent focus:ring-0 border-none focus:outline-0 shadow-none focus:shadow-none focus-visible:ring-0 text-4xl! text-left font-bold p-0 inline-block min-w-[5px] max-w-full selection:bg-transparent selection:text-inherit"
                         value={field.value === 0 ? "" : field.value}
                         style={{
                           width: `${field.value.toString().length || 1}ch`,
@@ -55,15 +54,6 @@ export default function PaySection({
                         }}
                         placeholder="0"
                         disabled={disableInput}
-                      />
-                      <CustomSpinner
-                        onClickUp={() => {
-                          field.onChange((field.value || 0) + 100);
-                        }}
-                        onClickDown={() =>
-                          field.onChange(Math.max((field.value || 0) - 100, 0))
-                        }
-                        className="font-bold"
                       />
                     </div>
                   </FormControl>
