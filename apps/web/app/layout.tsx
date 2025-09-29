@@ -21,11 +21,11 @@ export default async function RootLayout({
   const items = await getBillingItems();
   return (
     <html lang="en">
-      <body className="bg-gray-50 h-screen">
+      <body className="bg-gray-50 h-screen font-gilroy">
         <Header />
         <BillingItemProvider value={items.data ?? []}>
           <Providers>
-            <main className="w-full">{children}</main>
+            <main className="w-full font-gilroy">{children}</main>
           </Providers>
         </BillingItemProvider>
 

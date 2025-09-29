@@ -116,7 +116,12 @@
 }
 
 @theme {
-  --font-gilroy: "Gilroy", sans-serif;
+   --font-gilroy: "Gilroy-Medium", sans-serif;
+  --font-gilroy-bold: "Gilroy-Bold", sans-serif;
+  --font-gilroy-light: "Gilroy-Light", sans-serif;
+  --font-gilroy-regular: "Gilroy-Regular", sans-serif;
+  --font-gilroy-medium: "Gilroy-Medium", sans-serif;
+  --font-gilroy-heavy: "Gilroy-Heavy", sans-serif;
   --font-inter: Inter, sans-serif;
 }
 
@@ -131,24 +136,18 @@ input[type="number"] {
   -moz-appearance: textfield; /* Firefox */
 }
 
+
+
 @font-face {
-  font-family: 'Gilroy Bold';
-  src: url('/fonts/Gilroy-Bold.ttf') format('ttf');
+  font-family: 'Gilroy-Light';
+  src: url('/fonts/Gilroy-Light.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'Gilroy';
-  src: url('/fonts/Gilroy-Light.ttf') format('truetype');
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Gilroy';
+  font-family: 'Gilroy-Regular';
   src: url('/fonts/Gilroy-Regular.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
@@ -156,17 +155,25 @@ input[type="number"] {
 }
 
 @font-face {
-  font-family: 'Gilroy';
+  font-family: 'Gilroy-Medium';
   src: url('/fonts/Gilroy-Medium.ttf') format('truetype');
-  font-weight: 500;
+  font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'Gilroy';
+  font-family: 'Gilroy-Bold';
+  src: url('/fonts/Gilroy-Bold.ttf') format('ttf');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Gilroy-Heavy';
   src: url('/fonts/Gilroy-Heavy.ttf') format('truetype');
-  font-weight: 800;
+  font-weight: 400;
   font-style: normal;
   font-display: swap;
 }

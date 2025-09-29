@@ -67,8 +67,10 @@ export default function ElectricitySection() {
   };
 
   return (
-    <div className="flex flex-col gap-[16px]">
-      <h1 className="text-3xl font-bold text-gray-900">Electricity</h1>
+    <div className="flex flex-col gap-[16px] font-gilroy">
+      <h1 className="text-3xl font-bold text-gray-900 font-gilroy">
+        Electricity
+      </h1>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}

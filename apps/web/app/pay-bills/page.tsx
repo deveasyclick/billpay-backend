@@ -1,23 +1,28 @@
 "use client";
 
-import { LucideTreePine, Tv, Zap } from "lucide-react";
+import { AceIcon } from "@/assets/icons";
+import { Tv, Zap } from "lucide-react";
 import { useMemo, useState } from "react";
 import { BillList } from "./components";
 import { BettingSection, ElectricitySection } from "./sections";
 import CableTVSection from "./sections/tv";
 
 const sections = [
-  { name: "electricity", content: <ElectricitySection /> },
-  { name: "betting", content: <BettingSection /> },
-  { name: "cable & TV", content: <CableTVSection /> },
+  { name: "Electricity", content: <ElectricitySection /> },
+  { name: "Betting", content: <BettingSection /> },
+  { name: "Cable & TV", content: <CableTVSection /> },
 ];
 export default function PayBillPage() {
-  const [activeTab, setActiveTab] = useState("electricity");
+  const [activeTab, setActiveTab] = useState("Electricity");
   const categories = useMemo(
     () => [
-      { name: "electricity", icon: Zap },
-      { name: "betting", icon: LucideTreePine },
-      { name: "cable & TV", icon: Tv },
+      { name: "Electricity", icon: Zap },
+      {
+        name: "Betting",
+        icon: AceIcon,
+        className: "min-w-[128px] self-stretch",
+      },
+      { name: "Cable & TV", icon: Tv },
     ],
     []
   );
@@ -32,6 +37,7 @@ export default function PayBillPage() {
             icon={c.icon}
             active={c.name === activeTab}
             setActiveTab={setActiveTab}
+            className={c.className}
           />
         ))}
       </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Fingerprint, PlusCircle, SmartphoneCharging } from "lucide-react";
+import { Fingerprint, PlusCircle } from "lucide-react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";

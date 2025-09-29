@@ -1,14 +1,12 @@
 import { cn } from "@/lib/utils";
-import { ChevronRight, type LucideProps } from "lucide-react";
-import type { ForwardRefExoticComponent, RefAttributes } from "react";
+import { ChevronRight } from "lucide-react";
 
 interface BillListProps {
   category: string;
-  icon: ForwardRefExoticComponent<
-    Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>
-  >;
+  icon: any;
   active: boolean;
   setActiveTab: (tab: string) => void;
+  className?: string;
 }
 
 export default function BillList({
@@ -16,17 +14,25 @@ export default function BillList({
   icon: Icon,
   active = false,
   setActiveTab,
+  className,
 }: BillListProps) {
   return (
     <div
       className={cn(
-        "flex min-width-[128px] py-[12px] px-[8px] items-center gap-2 self-stretch rounded-[12px] hover:bg-blue-600/10 cursor-pointer",
-        active && "bg-blue-600/10"
+        "flex py-[12px] px-[8px] items-center gap-2 rounded-[12px] cursor-pointer font-gilroy",
+        className ? className : "",
+        active && "bg-blue-600/10 text-[#2563EB] font-semibold text-md!"
       )}
       onClick={() => setActiveTab(category)}
     >
-      <Icon height={24} width={24} className="text-blue-600" />
-      <span className="text-xl flex-1">{category}</span>
+      <div className="flex items-center gap-[8px] grow-1 shrink-0 basis-0">
+        <Icon
+          height={24}
+          width={24}
+          className={cn(active ? "text-[#2563EB]" : "text-[#414651]")}
+        />
+        <span className="flex-1 leading-[20px]">{category}</span>
+      </div>
       <ChevronRight width={25} height={25} className="pt-1 flex-shrink-0" />
     </div>
   );
