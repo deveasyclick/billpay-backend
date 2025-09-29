@@ -150,6 +150,19 @@ export const DataTab = () => {
                           </div>
                         </SelectItem>
                       ))}
+                      <SelectItem value="9mobile">
+                        <div className="flex items-center space-x-3 w-full">
+                          <span>
+                            <Image
+                              alt="9mobile logo"
+                              src="/icons/9mobile.png"
+                              height={18}
+                              width={18}
+                            />
+                          </span>
+                          <span>9MOBILE</span>
+                        </div>
+                      </SelectItem>
                     </SelectContent>
                   </Select>
                   <FormMessage />
