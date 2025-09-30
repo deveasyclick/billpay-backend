@@ -1,5 +1,6 @@
 "use client";
 
+import BillInput from "@/components/Input";
 import PaySection from "@/components/Pay";
 import {
   Form,
@@ -9,7 +10,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -87,11 +87,10 @@ export const AirtimeTab = () => {
                 </FormLabel>
                 <FormControl>
                   <div className="relative">
-                    <Input
+                    <BillInput
                       type="number"
                       placeholder="What's your phone number?"
                       {...field}
-                      className="flex py-[13px] px-[14.82px] gap-[7.412px] self-stretch flex-col shadow-sm rounded-lg focus-visible:ring-blue-500 focus-visible:ring-2  outline-0 h-11 focus-visible:border-transparent"
                     />
                   </div>
                 </FormControl>
@@ -120,18 +119,20 @@ export const AirtimeTab = () => {
                   </FormControl>
                   <SelectContent>
                     {SUPPORTED_NETWORKS.map((network) => (
-                      <SelectItem key={network.id} value={network.id}>
-                        <div className="flex items-center space-x-3 w-full">
-                          <span>
-                            <Image
-                              alt={`${network} logo`}
-                              src={network.logo}
-                              height={25}
-                              width={25}
-                            />
-                          </span>
-                          <span>{network.name}</span>
-                        </div>
+                      <SelectItem
+                        key={network.id}
+                        value={network.id}
+                        className="flex items-center space-x-3 w-full"
+                      >
+                        <span>
+                          <Image
+                            alt={`${network} logo`}
+                            src={network.logo}
+                            height={25}
+                            width={25}
+                          />
+                        </span>
+                        <span>{network.name}</span>
                       </SelectItem>
                     ))}
                     <SelectItem value="9mobile">

@@ -28,7 +28,7 @@ export function Tabs({
   return (
     <div
       className={cn(
-        "bg-white rounded-2xl shadow-sm border border-gray-100 gap-[24px] flex flex-col p-[24px] w-[500px]",
+        "bg-white rounded-2xl md:shadow-sm md:border border-gray-100 gap-[24px] flex flex-col pt-[24px] md:p-[24px] w-full md:w-[500px]",
         className
       )}
     >

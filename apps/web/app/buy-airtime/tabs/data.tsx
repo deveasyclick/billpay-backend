@@ -28,6 +28,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { SUPPORTED_NETWORKS } from "../constants";
 import { DataFormSchema, type DataForm } from "../schema/data.schema";
+import BillInput from "@/components/Input";
 
 interface DataTabProps {}
 
@@ -101,11 +102,10 @@ export const DataTab = () => {
                 </FormLabel>
                 <FormControl>
                   <div className="relative">
-                    <Input
+                    <BillInput
                       type="number"
                       placeholder="What's your phone number?"
                       {...field}
-                      className="flex py-[13px] px-[14.82px] gap-[7.412px] self-stretch flex-col shadow-sm rounded-lg focus-visible:ring-blue-500 focus-visible:ring-2  outline-0 h-11 focus-visible:border-transparent"
                     />
                   </div>
                 </FormControl>

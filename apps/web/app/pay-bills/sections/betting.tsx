@@ -23,6 +23,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { BettingSchema, type BettingForm } from "../schema/betting";
+import BillInput from "@/components/Input";
 
 export default function BettingSection() {
   const [providers, setProviders] = useState<BillingItem[]>([]);
@@ -116,7 +117,7 @@ export default function BettingSection() {
                 </FormLabel>
                 <FormControl>
                   <div className="relative">
-                    <Input
+                    <BillInput
                       type="number"
                       placeholder="What's your user ID?"
                       {...field}

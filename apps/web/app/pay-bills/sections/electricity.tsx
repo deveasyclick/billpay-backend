@@ -1,3 +1,4 @@
+import BillInput from "@/components/Input";
 import PaySection from "@/components/Pay";
 import {
   Form,
@@ -7,7 +8,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -156,7 +156,7 @@ export default function ElectricitySection() {
                 </FormLabel>
                 <FormControl>
                   <div className="relative">
-                    <Input
+                    <BillInput
                       type="number"
                       placeholder="What's your meter number?"
                       {...field}
