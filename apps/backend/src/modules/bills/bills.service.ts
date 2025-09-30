@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { InterSwitchService } from 'src/integration/interswitch/interswitch.service';
 import type {
+  Customer,
   TransactionResponse,
   ValidateCustomersResponse,
 } from 'src/integration/interswitch/types';
@@ -14,6 +15,7 @@ import type { PayBillDTO } from './dtos/payment';
 import { validateTransaction } from './utils/validateTransaction';
 import { CACHE_MANAGER, Cache } from '@nestjs/cache-manager';
 import type { BillerItem } from 'src/common/types/billerItem';
+import type { ValidateCustomerDTO } from './dtos/validate-customer';
 
 const BILL_ITEMS_CACHE_KEY = 'billItems';
 @Injectable()
@@ -37,6 +39,7 @@ export class BillsService {
   }
   /**
    * 🔹 Validate customer & amount
+   * @deprecated
    */
   private async validateCustomerOrThrow(
     customerId: string,
@@ -88,7 +91,11 @@ export class BillsService {
     return rules[type]?.() ?? false;
   }
 
-  // @deprecated
+  /**
+   *
+   * @deprecated
+   *
+   */
   async processBillPayment({
     amount: amountInNaira,
     customerId,
@@ -181,5 +188,16 @@ export class BillsService {
     const ttl = 60 * 60 * 24 * 1; // 1 days
     this.cacheManager.set(BILL_ITEMS_CACHE_KEY, JSON.stringify(items), ttl);
     return items;
+  }
+
+  public async validateCustomer({
+    customerId,
+    paymentCode,
+  }: ValidateCustomerDTO): Promise<Customer> {
+    const response = await this.interswitchService.validateCustomer(
+      customerId,
+      paymentCode,
+    );
+    return response.Customers?.[0] ?? {};
   }
 }
