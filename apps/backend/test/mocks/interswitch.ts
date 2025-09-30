@@ -105,6 +105,7 @@ export const mockInterSwitchService = {
         Amount: 1000,
         AmountType: 2,
         AmountTypeDescription: 'Exact amount required',
+        FullName: 'Yusuf Ola',
       },
     ],
   }),

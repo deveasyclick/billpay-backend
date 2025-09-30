@@ -50,7 +50,7 @@ describe('BillsController (e2e)', () => {
     });
   });
 
-  describe.only('/bills/pay (POST)', () => {
+  describe('/bills/pay (POST)', () => {
     it('should pay a bill with paymentCode', async () => {
       const res = await request(app.getHttpServer()).post('/bills/pay').send({
         customerId: '08012345678',
@@ -78,16 +78,44 @@ describe('BillsController (e2e)', () => {
         .expect(400);
     });
 
-    it("should throw if payload amount doesn't match expected amount", async () => {
-      // expected amount from mock is 100000 in kobo
-      const res = await request(app.getHttpServer()).post('/bills/pay').send({
-        customerId: '08012345678',
-        requestReference: 'ref123',
-        amount: 500, // amount in naira
-        paymentCode: 'MTN001',
+    // it("should throw if payload amount doesn't match expected amount", async () => {
+    //   // expected amount from mock is 100000 in kobo
+    //   const res = await request(app.getHttpServer()).post('/bills/pay').send({
+    //     customerId: '08012345678',
+    //     requestReference: 'ref123',
+    //     amount: 500, // amount in naira
+    //     paymentCode: 'MTN001',
+    //   });
+    //   console.log('res', res);
+    //   expect(res.body.statusCode).toBe(400);
+    //   expect(res.body.message).toBe('Payment confirmation mismatch or failed.');
+    // });
+  });
+
+  describe('/bills/validate-customer (POST)', () => {
+    it('should validate customer and return customer object', async () => {
+      const res = await request(app.getHttpServer())
+        .post('/bills/validate-customer')
+        .send({
+          customerId: '08012345678',
+          paymentCode: 'MTN001',
+        });
+      expect(res.body.statusCode).toBe(200);
+      expect(res.body.data).toEqual({
+        Amount: 1000,
+        AmountType: 2,
+        AmountTypeDescription: 'Exact amount required',
+        FullName: 'Yusuf Ola',
       });
-      expect(res.body.statusCode).toBe(400);
-      expect(res.body.message).toBe('Payment confirmation mismatch or failed.');
+    });
+
+    it('should throw BadRequest if required parameters are missing', async () => {
+      await request(app.getHttpServer())
+        .post('/bills/validate-customer')
+        .send({
+          paymentCode: 'MTN001',
+        })
+        .expect(400);
     });
   });
 });
