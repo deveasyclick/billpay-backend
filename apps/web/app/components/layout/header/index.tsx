@@ -24,10 +24,10 @@ export default function Header() {
   }, []);
 
   return (
-    <div className="flex flex-col md:block gap-[8px] md:gap-0 justify-center items-center">
-      <header className="flex flex-row justin-between md:justify-center items-center gap-[8px] py-0 px-[12px] md:pr-[12px] md:pl-[24px] rounded-[32px] bg-white border-[1px] border-solid border-[#E5E5E5] w-96 md:w-[950px] justify-self-center min-h-[60px]">
+    <div className="flex flex-col md:block gap-2 md:gap-0 justify-center items-center bg-white md:bg-inherit p-1 md:p-0 rounded-[28px] md:rounded-0">
+      <header className="flex flex-row justin-between md:justify-center items-center gap-[8px] py-2 px-3 md:pr-[12px] md:pl-6 rounded-[32px] bg-white border-[1px] border-solid border-[#E5E5E5] w-96 md:w-[950px] justify-self-center min-h-[60px]">
         {/* Logo */}
-        <div className="flex items-center gap-[4px]">
+        <div className="flex items-center gap-1">
           <Image
             src="/icons/logo.svg"
             alt="Elites Africa"
@@ -38,7 +38,7 @@ export default function Header() {
         </div>
 
         {/* Navigation Items */}
-        <div className="hidden md:flex md:p-[12px] items-center gap-[5px] md:gap-[10px] rounded-[32px]">
+        <div className="hidden md:flex  md:p-[12px] items-center gap-[5px] md:gap-[10px] rounded-[32px]">
           {navs.map((nav) => (
             <a
               key={nav.name}
@@ -60,9 +60,9 @@ export default function Header() {
           <Button
             variant="ghost"
             size="sm"
-            className="text-blue-600 hover:text-blue-700 border-2 border-gray-100 rounded-2xl  py-[8px]! px-[20px]! md:px-6 md:py-4 cursor-pointer"
+            className="text-blue-600 hover:text-blue-700 border-2 border-gray-100 rounded-2xl  py-1 px-3 md:px-6 md:py-4 cursor-pointer"
           >
-            <Fingerprint className="w-4 h-4" />
+            <Fingerprint className="w-6 md:w-4 h-6 md:h-4" />
           </Button>
           <Button
             size="sm"
@@ -74,13 +74,13 @@ export default function Header() {
         </div>
       </header>
 
-      <nav className="md:hidden w-96 py-1 rounded-[32px] inline-flex justify-between items-center">
+      <nav className="md:hidden w-96 p-1 rounded-[32px] bg-white flex justify-between items-center">
         {navs.map((nav) => (
           <a
             key={nav.name}
             href={nav.href}
             className={cn(
-              "px-3 py-2 bg-color-white--5%/5 rounded-[100px] outline outline-offset-[-1px] outline-neutral-200 flex justify-start items-start gap-2.5",
+              "p-3 bg-color-white--5%/5 rounded-[100px] outline outline-offset-[-1px] outline-neutral-200 flex justify-start items-start gap-2.5",
               activeTab === nav.href && "bg-blue-600"
             )}
           >

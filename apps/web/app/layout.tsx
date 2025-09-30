@@ -21,7 +21,7 @@ export default async function RootLayout({
   const items = await getBillingItems();
   return (
     <html lang="en">
-      <body className="bg-white md:bg-gray-50 h-screen font-gilroy pt-2 md:pt-0 px-[10px] md:px-0">
+      <body className="bg-gray-50 h-screen font-gilroy pt-2 md:pt-0 px-[10px] md:px-0 flex flex-col gap-5 md:gap-10">
         <Header />
         <BillingItemProvider value={items.data ?? []}>
           <Providers>

@@ -5,7 +5,7 @@ import { AirtimeTab, DataTab } from "./tabs";
 
 export default function AirtimeOrDataPage() {
   return (
-    <div className="w-full md:pt-[40px] flex items-center justify-center">
+    <div className="w-full flex items-center justify-center">
       <div className="flex flex-col gap-[24px] w-full md:w-auto">
         <Tabs
           defaultTab="airtime"

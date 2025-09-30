@@ -24,6 +24,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { BettingSchema, type BettingForm } from "../schema/betting";
 import BillInput from "@/components/Input";
+import { cn } from "@/lib/utils";
 
 export default function BettingSection() {
   const [providers, setProviders] = useState<BillingItem[]>([]);
@@ -91,9 +92,16 @@ export default function BettingSection() {
                       <SelectValue placeholder="Select service provider..." />
                     </SelectTrigger>
                   </FormControl>
-                  <SelectContent>
+                  <SelectContent className="border-0">
                     {providers.map((p) => (
-                      <SelectItem key={p.providerName} value={p.providerName}>
+                      <SelectItem
+                        key={p.providerName}
+                        value={p.providerName}
+                        className={cn(
+                          field.value === p.providerName &&
+                            "bg-blue-100! opacity-50"
+                        )}
+                      >
                         <div className="flex items-center space-x-3 w-full">
                           <span>{p.providerName}</span>
                         </div>

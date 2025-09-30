@@ -23,6 +23,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { ElectricitySchema, type ElectricityForm } from "../schema/electricity";
+import { cn } from "@/lib/utils";
 
 export default function ElectricitySection() {
   const [plans, setPlans] = useState<BillingItem[]>([]);
@@ -94,9 +95,23 @@ export default function ElectricitySection() {
                       <SelectValue placeholder="Select a package..." />
                     </SelectTrigger>
                   </FormControl>
-                  <SelectContent>
-                    <SelectItem value="Prepaid">Prepaid</SelectItem>
-                    <SelectItem value="Postpaid">Postpaid</SelectItem>
+                  <SelectContent className="border-0">
+                    <SelectItem
+                      className={cn(
+                        field.value === "Prepaid" && "bg-blue-100! opacity-50"
+                      )}
+                      value="Prepaid"
+                    >
+                      Prepaid
+                    </SelectItem>
+                    <SelectItem
+                      className={cn(
+                        field.value === "Postpaid" && "bg-blue-100! opacity-50"
+                      )}
+                      value="Postpaid"
+                    >
+                      Postpaid
+                    </SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -122,9 +137,16 @@ export default function ElectricitySection() {
                       <SelectValue placeholder="Select provider..." />
                     </SelectTrigger>
                   </FormControl>
-                  <SelectContent>
+                  <SelectContent className="border-0">
                     {plans.map((p) => (
-                      <SelectItem key={p.providerName} value={p.providerName}>
+                      <SelectItem
+                        key={p.providerName}
+                        value={p.providerName}
+                        className={cn(
+                          field.value === p.providerName &&
+                            "bg-blue-100! opacity-50"
+                        )}
+                      >
                         <div className="flex items-center space-x-3 w-full">
                           {/* <span>
                             <Image

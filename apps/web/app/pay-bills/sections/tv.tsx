@@ -23,6 +23,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { CableTVSchema, type CableTVForm } from "../schema/tv";
+import { cn } from "@/lib/utils";
 
 export default function CableTVSection() {
   const [packages, setPackages] = useState<BillingItem[]>([]);
@@ -115,9 +116,15 @@ export default function CableTVSection() {
                       <SelectValue placeholder="Select service provider..." />
                     </SelectTrigger>
                   </FormControl>
-                  <SelectContent>
+                  <SelectContent className="border-0">
                     {providers.map((p) => (
-                      <SelectItem key={p} value={p}>
+                      <SelectItem
+                        key={p}
+                        value={p}
+                        className={cn(
+                          field.value === p && "bg-blue-100! opacity-50"
+                        )}
+                      >
                         <div className="flex items-center space-x-3 w-full">
                           {/* <span>
                             <Image
@@ -156,9 +163,16 @@ export default function CableTVSection() {
                       <SelectValue placeholder="Select a package..." />
                     </SelectTrigger>
                   </FormControl>
-                  <SelectContent>
+                  <SelectContent className="border-0">
                     {packages.map((p) => (
-                      <SelectItem key={p.displayName} value={p.displayName}>
+                      <SelectItem
+                        key={p.displayName}
+                        value={p.displayName}
+                        className={cn(
+                          field.value === p.displayName &&
+                            "bg-blue-100! opacity-50"
+                        )}
+                      >
                         <div className="flex items-center space-x-3 w-full">
                           {/* <span>
                             <Image
