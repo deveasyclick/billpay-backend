@@ -14,7 +14,11 @@ async function bootstrap() {
 
   // Cors
   app.enableCors({
-    origin: ['http://localhost:3000'], // your frontend origin
+    origin: [
+      'http://localhost:3000',
+      'https://web-production-3c726.up.railway.app',
+      'https://poc-production-8507.up.railway.app',
+    ], // your frontend origin
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'], // methods you need
     allowedHeaders: ['Content-Type', 'Authorization'], // headers your frontend sends
     credentials: true, //
