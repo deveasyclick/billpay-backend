@@ -36,20 +36,20 @@ export default function PayBillPage() {
     <>
       <div
         className={cn(
-          "hidden w-96",
+          "hidden w-full",
           mobileActiveTab !== "" && isMobile ? "flex" : ""
         )}
       >
         <Button
           variant={"outline"}
-          className="text-blue-500 rounded-[32px]"
+          className="text-blue-500 rounded-[32px] p-2"
           onClick={() => setMobileActiveTab("")}
         >
           <ArrowLeft width={25} height={25} />
-          Go back
+          <span className="text-sm leading[15.4px]">Go back</span>
         </Button>
       </div>
-      <div className="flex items-start gap-[12px] w-96 md:w-auto">
+      <div className="flex items-start gap-3 w-full md:w-auto">
         <div className="hidden md:flex flex-col gap-[12px] items-center">
           {categories.map((c) => (
             <BillList
@@ -65,7 +65,9 @@ export default function PayBillPage() {
         {/* Hide if no tab is selected on mobile */}
         <div
           className={cn(
-            isMobile ? "flex flex-col gap-3 self-stretch w-full" : "hidden",
+            isMobile
+              ? "flex flex-col items-start gap-3 self-stretch w-full"
+              : "hidden",
             mobileActiveTab !== "" && "hidden"
           )}
         >

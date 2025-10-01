@@ -27,6 +27,8 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { ElectricitySchema, type ElectricityForm } from "../schema/electricity";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
 
 export default function ElectricitySection() {
   const [plans, setPlans] = useState<BillingItem[]>([]);
@@ -124,36 +126,41 @@ export default function ElectricitySection() {
             render={({ field }) => (
               <FormItem className="w-full">
                 <FormLabel className="text-sm font-medium text-gray-700">
-                  Package
+                  Select a Package
                 </FormLabel>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
-                  <FormControl>
-                    <SelectTrigger className="border-gray-200 focus:border-blue-500 focus:ring-blue-500 w-full shadow-sm h-12! cursor-pointer focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:border-blue-500">
-                      <SelectValue placeholder="Select a package..." />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent className="border-0">
-                    <SelectItem
-                      className={cn(
-                        field.value === "Prepaid" && "bg-blue-100! opacity-50"
-                      )}
-                      value="Prepaid"
-                    >
-                      Prepaid
-                    </SelectItem>
-                    <SelectItem
-                      className={cn(
-                        field.value === "Postpaid" && "bg-blue-100! opacity-50"
-                      )}
-                      value="Postpaid"
-                    >
-                      Postpaid
-                    </SelectItem>
-                  </SelectContent>
-                </Select>
+                <FormControl>
+                  <RadioGroup
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <div className="flex items-start gap-1.5 self-stretch w-full">
+                      <div
+                        className={cn(
+                          "flex p-3 items-center gap-[7.412px] self-stretch border-[0.741px] border-[#E5E5E5] rounded-[11.859px] shadow-right-bottom w-1/2",
+                          field.value === "Prepaid" &&
+                            "border-[#2563EB] border-1"
+                        )}
+                      >
+                        <RadioGroupItem
+                          value="Prepaid"
+                          id="r1"
+                          className="data-[state=checked]:bg-blue-500"
+                        />
+                        <Label htmlFor="r1">Prepaid</Label>
+                      </div>
+                      <div
+                        className={cn(
+                          "flex p-3 items-center gap-[7.412px] self-stretch border-[0.741px] border-[#E5E5E5] rounded-[11.859px] shadow-right-bottom w-1/2",
+                          field.value === "Postpaid" &&
+                            "border-[#2563EB] border-1"
+                        )}
+                      >
+                        <RadioGroupItem value="Postpaid" id="r2" />
+                        <Label htmlFor="r2">Postpaid</Label>
+                      </div>
+                    </div>
+                  </RadioGroup>
+                </FormControl>
                 <FormMessage />
               </FormItem>
             )}

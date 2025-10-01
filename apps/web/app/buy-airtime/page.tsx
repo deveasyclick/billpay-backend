@@ -20,7 +20,7 @@ export default function AirtimeOrDataPage() {
               key: "data",
               label: "Data",
               content: <DataTab />,
-              className: "relative left-[-20px] z-0",
+              className: "relative left-[-8px] md:left-[-20px] z-0",
             },
           ]}
         />

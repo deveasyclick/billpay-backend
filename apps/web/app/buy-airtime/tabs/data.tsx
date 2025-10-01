@@ -82,7 +82,7 @@ export const DataTab = () => {
   };
 
   return (
-    <div className="flex flex-col gap-[16px]">
+    <div className="flex flex-col gap-4">
       {/* Header */}
       <h1 className="text-3xl font-bold text-gray-900">Buy Data</h1>
 
@@ -115,7 +115,7 @@ export const DataTab = () => {
           />
 
           {/* Network Selection */}
-          <div className="grid grid-cols-2 gap-4 w-full">
+          <div className="grid md:grid-cols-2 gap-4 w-full">
             {/* Network Selection */}
             <FormField
               control={form.control}

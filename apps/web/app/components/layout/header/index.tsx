@@ -24,9 +24,10 @@ export default function Header() {
   }, []);
 
   return (
-    <div className="flex flex-col md:block gap-2 md:gap-0 justify-center items-center bg-white md:bg-inherit p-1 md:p-0 rounded-[28px] md:rounded-0">
-      <header className="flex flex-row justin-between md:justify-center items-center gap-[8px] py-2 px-3 md:pr-[12px] md:pl-6 rounded-[32px] bg-white border-[1px] border-solid border-[#E5E5E5] w-96 md:w-[950px] justify-self-center min-h-[60px]">
+    <div className="flex flex-col md:block gap-1 md:gap-0 items-start bg-white md:bg-inherit p-1 md:p-0 rounded-[24px] md:rounded-0">
+      <header className="flex flex-row md:flex-row justify-center  items-center gap-2 py-2 px-3 md:py-0  md:pr-3 md:pl-6 rounded-[32px] bg-white border-[1px] border-solid border-[#E5E5E5] md:w-[950px] self-stretch md:self-auto md:justify-self-center min-h-[60px]">
         {/* Logo */}
+        <div></div>
         <div className="flex items-center gap-1">
           <Image
             src="/icons/logo.svg"
@@ -74,25 +75,23 @@ export default function Header() {
         </div>
       </header>
 
-      <nav className="md:hidden w-96 p-1 rounded-[32px] bg-white flex justify-between items-center">
+      <nav className="md:hidden flex py-1 px-0 justify-between items-center self-stretch">
         {navs.map((nav) => (
           <a
             key={nav.name}
             href={nav.href}
             className={cn(
-              "p-3 bg-color-white--5%/5 rounded-[100px] outline outline-offset-[-1px] outline-neutral-200 flex justify-start items-start gap-2.5",
+              "flex py-1 px-2 items-start gap-2.5 rounded-[100px] border-[0.6px] border-solid border-[#E5E5E5]",
               activeTab === nav.href && "bg-blue-600"
             )}
           >
-            <div className="flex justify-start items-center gap-2">
-              <div
-                className={cn(
-                  "justify-start text-neutral-400 text-xs font-normal leading-tight",
-                  activeTab === nav.href && "text-white"
-                )}
-              >
-                {nav.title}
-              </div>
+            <div
+              className={cn(
+                "justify-start text-neutral-400 text-xs font-normal leading-[20px] tracking-[-0.12px]",
+                activeTab === nav.href && "text-white"
+              )}
+            >
+              {nav.title}
             </div>
           </a>
         ))}

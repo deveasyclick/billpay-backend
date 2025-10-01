@@ -21,8 +21,8 @@ export default function PaySection({
     <div className="flex flex-col gap-[12px] self-stretch items-start">
       {/* Pay Section */}
       <div className="flex flex-row w-full">
-        <div className="flex bg-[#F8F8F8] rounded-lg p-[12px] gap-[8px] self-stretch relative w-full">
-          <div className="w-1/2 flex items-start flex-col gap-[8px]">
+        <div className="flex bg-[#F8F8F8] rounded-xl p-3 gap-2 self-stretch relative border-[0.5px] border-solid border-[#E5E5E5] w-full">
+          <div className="w-1/2 flex items-start flex-col gap-2">
             <p className="text-xs">You pay an amount of</p>
             <FormField
               control={control}
@@ -86,7 +86,7 @@ export default function PaySection({
         </Button>
         <Button
           type="submit"
-          className="flex-2 bg-indigo-400 hover:bg-indigo-700 text-white font-medium cursor-pointer w-full h-[44px]"
+          className="flex-2 bg-[#4648FF] hover:bg-indigo-900 text-white font-medium cursor-pointer w-full h-[44px]"
           disabled={disable}
         >
           Proceed to Pay <ShieldCheck />
