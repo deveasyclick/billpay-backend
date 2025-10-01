@@ -42,6 +42,7 @@ export default function CableTVSection() {
     data,
     error,
     isIdle,
+    reset,
   } = useValidateCustomer();
 
   const form = useForm<CableTVForm>({
@@ -104,7 +105,9 @@ export default function CableTVSection() {
       toast.error("An error occurred. Please try again later.");
       return;
     }
-    if (isIdle) {
+
+    if (isIdle || !isSuccess) {
+      form.clearErrors("smartCardNumber");
       validateCustomer({
         customerId: data.smartCardNumber,
         paymentCode,
@@ -238,14 +241,9 @@ export default function CableTVSection() {
                       placeholder="What's your smart card number?"
                       {...field}
                       className="flex py-[13px] px-[14.82px] gap-[7.412px] self-stretch flex-col shadow-sm rounded-lg focus-visible:ring-blue-500 focus-visible:ring-2 focus-visible:border-0 outline-0 h-11"
-                      onBlur={async () => {
-                        form.clearErrors("smartCardNumber");
-                        if (field.value && paymentCode) {
-                          validateCustomer({
-                            customerId: field.value,
-                            paymentCode,
-                          });
-                        }
+                      onChange={(e) => {
+                        field.onChange(e);
+                        reset();
                       }}
                     />
                   </div>

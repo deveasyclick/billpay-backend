@@ -43,6 +43,7 @@ export default function BettingSection() {
     data,
     error,
     isIdle,
+    reset,
   } = useValidateCustomer();
 
   const form = useForm<BettingForm>({
@@ -89,7 +90,8 @@ export default function BettingSection() {
       return;
     }
 
-    if (isIdle) {
+    if (isIdle || !isSuccess) {
+      form.clearErrors("userId");
       validateCustomer({
         customerId: data.userId,
         paymentCode,
@@ -169,14 +171,9 @@ export default function BettingSection() {
                       {...field}
                       className="flex py-[13px] px-[14.82px] gap-[7.412px] self-stretch flex-col shadow-sm rounded-lg focus-visible:ring-blue-500 focus-visible:ring-2  outline-0 h-11 focus-visible:border-transparent"
                       disabled={!form.watch("provider")}
-                      onBlur={async () => {
-                        form.clearErrors("userId");
-                        if (field.value && paymentCode) {
-                          validateCustomer({
-                            customerId: field.value,
-                            paymentCode,
-                          });
-                        }
+                      onChange={(e) => {
+                        field.onChange(e);
+                        reset();
                       }}
                     />
                   </div>

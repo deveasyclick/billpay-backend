@@ -41,6 +41,7 @@ export default function ElectricitySection() {
     data,
     error,
     isIdle,
+    reset,
   } = useValidateCustomer();
 
   const form = useForm<ElectricityForm>({
@@ -90,7 +91,8 @@ export default function ElectricitySection() {
       return;
     }
 
-    if (isIdle) {
+    if (isIdle || !isSuccess) {
+      form.clearErrors("meterNo");
       validateCustomer({
         customerId: data.meterNo,
         paymentCode,
@@ -221,14 +223,9 @@ export default function ElectricitySection() {
                       placeholder="What's your meter number?"
                       {...field}
                       className="flex py-[13px] px-[14.82px] gap-[7.412px] self-stretch flex-col shadow-sm rounded-lg focus-visible:ring-blue-500 focus-visible:ring-2 focus-visible:border-0 outline-0 h-11"
-                      onBlur={async () => {
-                        form.clearErrors("meterNo");
-                        if (field.value && paymentCode) {
-                          validateCustomer({
-                            customerId: field.value,
-                            paymentCode,
-                          });
-                        }
+                      onChange={(e) => {
+                        field.onChange(e);
+                        reset();
                       }}
                     />
                   </div>
