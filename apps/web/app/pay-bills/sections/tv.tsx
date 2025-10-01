@@ -24,12 +24,25 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { CableTVSchema, type CableTVForm } from "../schema/tv";
 import { cn } from "@/lib/utils";
+import { useValidateCustomer } from "@/queries/validate-customer";
+import { Check } from "lucide-react";
+import { LoaderTree } from "@/assets/icons/loader";
 
 export default function CableTVSection() {
   const [packages, setPackages] = useState<BillingItem[]>([]);
   const [providers, setProviders] = useState<string[]>([]);
+  const [paymentCode, setPaymentCode] = useState<string>("");
   const { checkout } = useInterswitchCheckout();
   const items = useBillingItems();
+  const {
+    mutate: validateCustomer,
+    isPending,
+    isError,
+    isSuccess,
+    data,
+    error,
+    isIdle,
+  } = useValidateCustomer();
 
   const form = useForm<CableTVForm>({
     resolver: zodResolver(CableTVSchema),
@@ -40,6 +53,14 @@ export default function CableTVSection() {
       smartCardNumber: "",
     },
   });
+
+  useEffect(() => {
+    if (isError) {
+      form.setError("smartCardNumber", {
+        message: error?.message ?? "Validation failed",
+      });
+    }
+  }, [isError, error, form]);
 
   // set cable tv packages
   useEffect(() => {
@@ -67,19 +88,27 @@ export default function CableTVSection() {
   const pkg = form.watch("package");
   useEffect(() => {
     if (pkg) {
-      const amount = packages.find((p) => p.displayName === pkg)?.amount || 0;
+      const selectedPackage = packages.find((p) => p.displayName === pkg);
+      const amount = selectedPackage?.amount || 0;
+      const paymentCode = selectedPackage?.providerMeta?.[0]?.paymentCode;
+      if (paymentCode) {
+        setPaymentCode(paymentCode.toString());
+      }
       form.setValue("amount", amount / 100);
     }
   }, [pkg]);
 
   const onSubmit = (data: CableTVForm) => {
-    const paymentCode = packages.find((p) => p.displayName === data.package)
-      ?.providerMeta?.[0]?.paymentCode;
-    console.log({ paymentCode, providers, packages });
-
     if (!paymentCode) {
       console.log("paymentCode not found");
       toast.error("An error occurred. Please try again later.");
+      return;
+    }
+    if (isIdle) {
+      validateCustomer({
+        customerId: data.smartCardNumber,
+        paymentCode,
+      });
       return;
     }
 
@@ -209,10 +238,29 @@ export default function CableTVSection() {
                       placeholder="What's your smart card number?"
                       {...field}
                       className="flex py-[13px] px-[14.82px] gap-[7.412px] self-stretch flex-col shadow-sm rounded-lg focus-visible:ring-blue-500 focus-visible:ring-2 focus-visible:border-0 outline-0 h-11"
-                      disabled={!form.watch("provider")}
+                      onBlur={async () => {
+                        form.clearErrors("smartCardNumber");
+                        if (field.value && paymentCode) {
+                          validateCustomer({
+                            customerId: field.value,
+                            paymentCode,
+                          });
+                        }
+                      }}
                     />
                   </div>
                 </FormControl>
+                {isSuccess && (
+                  <span className="text-blue-700 flex gap-1 text-[13px] items-center">
+                    <Check className="w-4 h-4" />
+                    {data.FullName}
+                  </span>
+                )}
+                {isPending && (
+                  <span className="text-red-500 flex gap-2 text-xs">
+                    <LoaderTree className="animate-spin" /> Validating...
+                  </span>
+                )}
                 <FormMessage />
               </FormItem>
             )}
@@ -220,7 +268,7 @@ export default function CableTVSection() {
 
           <PaySection
             control={form.control}
-            disable={!form.formState.isValid}
+            disable={isPending || isError}
             disableInput={true}
           />
         </form>

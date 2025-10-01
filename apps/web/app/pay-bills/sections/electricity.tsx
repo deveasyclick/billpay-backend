@@ -1,3 +1,4 @@
+import { LoaderTree } from "@/assets/icons/loader";
 import BillInput from "@/components/Input";
 import PaySection from "@/components/Pay";
 import {
@@ -17,19 +18,31 @@ import {
 } from "@/components/ui/select";
 import { useInterswitchCheckout } from "@/hooks/use-interswitch-checkout";
 import { useBillingItems } from "@/lib/context/itemContext";
+import { cn } from "@/lib/utils";
+import { useValidateCustomer } from "@/queries/validate-customer";
 import type { BillingItem } from "@/types/billingitem";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Check } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { ElectricitySchema, type ElectricityForm } from "../schema/electricity";
-import { cn } from "@/lib/utils";
 
 export default function ElectricitySection() {
   const [plans, setPlans] = useState<BillingItem[]>([]);
   const { checkout } = useInterswitchCheckout();
+  const [paymentCode, setPaymentCode] = useState<string>("");
   const items = useBillingItems();
-  console.log("items", items);
+  const {
+    mutate: validateCustomer,
+    isPending,
+    isError,
+    isSuccess,
+    data,
+    error,
+    isIdle,
+  } = useValidateCustomer();
+
   const form = useForm<ElectricityForm>({
     resolver: zodResolver(ElectricitySchema),
     defaultValues: {
@@ -39,6 +52,15 @@ export default function ElectricitySection() {
       package: "Prepaid",
     },
   });
+
+  useEffect(() => {
+    if (isError) {
+      form.setError("meterNo", {
+        message: error?.message ?? "Validation failed",
+      });
+    }
+  }, [isError, error, form]);
+
   const pkg = form.watch("package");
   // set electricity plans
   useEffect(() => {
@@ -50,13 +72,29 @@ export default function ElectricitySection() {
     form.setValue("provider", "");
   }, [pkg]);
 
-  const onSubmit = (data: ElectricityForm) => {
-    const paymentCode = plans.find((p) => p.providerName === data.provider)
-      ?.providerMeta?.[0]?.paymentCode;
+  const provider = form.watch("provider");
+  useEffect(() => {
+    if (provider) {
+      const paymentCode = plans.find((p) => p.providerName === provider)
+        ?.providerMeta?.[0]?.paymentCode;
+      if (paymentCode) {
+        setPaymentCode(paymentCode.toString());
+      }
+    }
+  }, [provider]);
 
+  const onSubmit = (data: ElectricityForm) => {
     if (!paymentCode) {
       console.log("paymentCode not found");
       toast.error("An error occurred. Please try again later.");
+      return;
+    }
+
+    if (isIdle) {
+      validateCustomer({
+        customerId: data.meterNo,
+        paymentCode,
+      });
       return;
     }
 
@@ -183,18 +221,36 @@ export default function ElectricitySection() {
                       placeholder="What's your meter number?"
                       {...field}
                       className="flex py-[13px] px-[14.82px] gap-[7.412px] self-stretch flex-col shadow-sm rounded-lg focus-visible:ring-blue-500 focus-visible:ring-2 focus-visible:border-0 outline-0 h-11"
+                      onBlur={async () => {
+                        form.clearErrors("meterNo");
+                        if (field.value && paymentCode) {
+                          validateCustomer({
+                            customerId: field.value,
+                            paymentCode,
+                          });
+                        }
+                      }}
                     />
                   </div>
                 </FormControl>
+                {isSuccess && (
+                  <span className="text-blue-700 flex gap-1 text-[13px] items-center">
+                    <Check className="w-4 h-4" />
+                    {data.FullName}
+                  </span>
+                )}
+                {isPending && (
+                  <span className="text-red-500 flex gap-2 text-xs">
+                    <LoaderTree className="animate-spin" /> Validating...
+                  </span>
+                )}
                 <FormMessage />
               </FormItem>
             )}
           />
 
-          <PaySection
-            control={form.control}
-            disable={!form.formState.isValid}
-          />
+          {/* We should allow them to pay even if validation fails */}
+          <PaySection control={form.control} disable={isPending || isError} />
         </form>
       </Form>
     </div>

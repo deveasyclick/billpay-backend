@@ -25,13 +25,26 @@ import { toast } from "sonner";
 import { BettingSchema, type BettingForm } from "../schema/betting";
 import BillInput from "@/components/Input";
 import { cn } from "@/lib/utils";
+import { useValidateCustomer } from "@/queries/validate-customer";
+import { LoaderTree } from "@/assets/icons/loader";
+import { Check } from "lucide-react";
 
 export default function BettingSection() {
   const [providers, setProviders] = useState<BillingItem[]>([]);
+  const [paymentCode, setPaymentCode] = useState<string>("");
   const { checkout } = useInterswitchCheckout();
   const items = useBillingItems();
 
-  console.log("items", items);
+  const {
+    mutate: validateCustomer,
+    isPending,
+    isError,
+    isSuccess,
+    data,
+    error,
+    isIdle,
+  } = useValidateCustomer();
+
   const form = useForm<BettingForm>({
     resolver: zodResolver(BettingSchema),
     defaultValues: {
@@ -40,6 +53,14 @@ export default function BettingSection() {
       amount: 0.0,
     },
   });
+
+  useEffect(() => {
+    if (isError) {
+      form.setError("userId", {
+        message: error?.message ?? "Validation failed",
+      });
+    }
+  }, [isError, error, form]);
 
   // set electricity providers
   useEffect(() => {
@@ -50,12 +71,29 @@ export default function BettingSection() {
     setProviders(providers);
   }, []);
 
+  const provider = form.watch("provider");
+  useEffect(() => {
+    if (provider) {
+      const paymentCode = providers.find((p) => p.providerName === provider)
+        ?.providerMeta?.[0]?.paymentCode;
+      if (paymentCode) {
+        setPaymentCode(paymentCode.toString());
+      }
+    }
+  }, [provider]);
+
   const onSubmit = (data: BettingForm) => {
-    const paymentCode = providers.find((p) => p.providerName === data.provider)
-      ?.providerMeta?.[0]?.paymentCode;
     if (!paymentCode) {
       console.log("paymentCode not found");
       toast.error("An error occurred. Please try again later.");
+      return;
+    }
+
+    if (isIdle) {
+      validateCustomer({
+        customerId: data.userId,
+        paymentCode,
+      });
       return;
     }
 
@@ -131,15 +169,35 @@ export default function BettingSection() {
                       {...field}
                       className="flex py-[13px] px-[14.82px] gap-[7.412px] self-stretch flex-col shadow-sm rounded-lg focus-visible:ring-blue-500 focus-visible:ring-2  outline-0 h-11 focus-visible:border-transparent"
                       disabled={!form.watch("provider")}
+                      onBlur={async () => {
+                        form.clearErrors("userId");
+                        if (field.value && paymentCode) {
+                          validateCustomer({
+                            customerId: field.value,
+                            paymentCode,
+                          });
+                        }
+                      }}
                     />
                   </div>
                 </FormControl>
+                {isSuccess && (
+                  <span className="text-blue-700 flex gap-1 text-[13px] items-center">
+                    <Check className="w-4 h-4" />
+                    {data.FullName}
+                  </span>
+                )}
+                {isPending && (
+                  <span className="text-red-500 flex gap-2 text-xs">
+                    <LoaderTree className="animate-spin" /> Validating...
+                  </span>
+                )}
                 <FormMessage />
               </FormItem>
             )}
           />
 
-          <PaySection control={form.control} disable={form.formState.isValid} />
+          <PaySection control={form.control} disable={isPending || isError} />
         </form>
       </Form>
     </div>
