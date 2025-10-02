@@ -11,7 +11,7 @@ export default function Header() {
   const pathname = usePathname();
   const [activeTab, setActiveTab] = useState("/pay-bills");
   const navs = [
-    { name: "dashboard", href: "/dashboard", title: "Dashboard" },
+    { name: "dashboard", href: "/", title: "Dashboard" },
     { name: "airtime", href: "/buy-airtime", title: "Buy Airtime & Data" },
     { name: "pay", href: "/pay-bills", title: "Pay Bills" },
     { name: "invite", href: "/invite", title: "Invite Friend" },
